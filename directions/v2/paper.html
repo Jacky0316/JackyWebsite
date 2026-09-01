@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>方向 D · 暖纸墨色｜Jacky</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@600;700;900&display=swap" rel="stylesheet" />
+    <style>
+      :root {
+        --bg: #f5efe3; --paper: #fbf7ec; --ink: #2a251c; --sub: #6d6353; --faint: #9a8f7c;
+        --line: #ddd2ba; --line-strong: #c4b696;
+        --green: #2e5d4b; --green-soft: #e2ede6; --brass: #a2682a; --brass-soft: #f3e5cf;
+        --serif: "Noto Serif SC", serif; --sans: "Noto Sans SC", sans-serif; --mono: "JetBrains Mono", monospace;
+        --max: 1120px; --r: 14px;
+      }
+      * { box-sizing: border-box; }
+      body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); font-size: 15px; line-height: 1.8; }
+      body::before { content: ""; position: fixed; inset: 0; pointer-events: none; opacity: .5;
+        background-image: radial-gradient(rgb(42 37 28 / 5%) 1px, transparent 1px); background-size: 24px 24px; }
+      a { color: inherit; text-decoration: none; }
+      .shell { position: relative; width: min(var(--max), calc(100% - 48px)); margin: auto; }
+      .mono { font-family: var(--mono); }
+
+      header { position: sticky; top: 0; z-index: 10; background: rgb(245 239 227 / 88%); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
+      .nav { height: 64px; display: flex; align-items: center; gap: 20px; }
+      .brand { font: 700 15px var(--serif); display: flex; align-items: center; gap: 10px; }
+      .brand i { width: 26px; height: 26px; border-radius: 8px; background: var(--green); color: #f5efe3; display: grid; place-items: center; font: 700 12px var(--serif); }
+      .nav-links { margin-left: auto; display: flex; gap: 4px; font-size: 13px; color: var(--sub); }
+      .nav-links a { padding: 7px 12px; border-radius: 8px; transition: .16s; }
+      .nav-links a:hover { color: var(--green); background: var(--green-soft); }
+      .nav-links a.hot { color: var(--green); font-weight: 700; border-bottom: 2px solid var(--green); border-radius: 0; }
+
+      .kicker { display: inline-flex; align-items: center; gap: 8px; margin: 0; font: 500 11px var(--mono); letter-spacing: .1em; color: var(--brass); }
+      .kicker::before { content: ""; width: 18px; height: 1px; background: var(--brass); }
+      section { padding: 84px 0; border-top: 1px solid var(--line); }
+      section.first { border-top: 0; }
+      h2.sec { margin: 12px 0 8px; font: 900 clamp(26px, 3.2vw, 38px)/1.3 var(--serif); letter-spacing: -.01em; }
+      .sec-sub { margin: 0 0 42px; color: var(--sub); font-size: 14px; max-width: 560px; }
+
+      .hero { display: grid; grid-template-columns: 1.05fr .95fr; gap: 56px; align-items: center; padding: 92px 0 84px; border-top: 0; }
+      .hero-tag { display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px; border: 1px solid var(--line-strong); border-radius: 999px; background: var(--paper); font: 500 11px var(--mono); letter-spacing: .05em; color: var(--sub); }
+      .hero-tag i { width: 7px; height: 7px; border-radius: 50%; background: var(--green); }
+      h1 { margin: 22px 0 18px; font: 900 clamp(34px, 4.4vw, 56px)/1.25 var(--serif); }
+      h1 em { font-style: normal; color: var(--green); border-bottom: 3px solid var(--brass); }
+      .lead { margin: 0; max-width: 510px; color: var(--sub); font-size: 16px; line-height: 1.9; }
+      .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
+      .btn { min-height: 46px; display: inline-flex; align-items: center; gap: 8px; padding: 12px 20px; border-radius: 999px; font-size: 14px; font-weight: 500; transition: .18s; }
+      .btn-p { background: var(--green); color: #f5efe3; box-shadow: 0 10px 24px rgb(46 93 75 / 25%); }
+      .btn-p:hover { transform: translateY(-2px); box-shadow: 0 14px 30px rgb(46 93 75 / 32%); }
+      .btn-g { border: 1px solid var(--line-strong); color: var(--ink); background: var(--paper); }
+      .btn-g:hover { border-color: var(--green); color: var(--green); transform: translateY(-2px); }
+
+      .card { background: var(--paper); border: 1px solid var(--line); border-radius: var(--r); box-shadow: 0 2px 4px rgb(42 37 28 / 4%), 0 16px 36px rgb(42 37 28 / 7%); }
+      .evidence { overflow: hidden; }
+      .evidence-head { display: flex; justify-content: space-between; padding: 14px 22px; border-bottom: 1px dashed var(--line-strong); font: 500 10px var(--mono); letter-spacing: .12em; color: var(--faint); }
+      .evidence-head b { color: var(--green); font-weight: 500; }
+      .proof { display: grid; grid-template-columns: 54px 1fr; gap: 14px; padding: 20px 22px; }
+      .proof + .proof { border-top: 1px solid var(--line); }
+      .proof-no { font: 700 20px/1.2 var(--serif); color: var(--brass); }
+      .proof h3 { margin: 0; font: 700 16px var(--serif); }
+      .proof p { margin: 4px 0 0; font-size: 13px; color: var(--sub); }
+
+      .chip { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 999px; font: 500 10px var(--mono); letter-spacing: .04em; }
+      .chip-vibe { background: var(--brass-soft); color: var(--brass); border: 1px solid rgb(162 104 42 / 35%); }
+      .chip-vibe::before { content: "</>"; }
+      .chip-live { background: var(--green-soft); color: var(--green); }
+      .chip-live::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+      .chip-iter { background: var(--brass-soft); color: var(--brass); }
+      .chip-iter::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+      .chip-line { border: 1px solid var(--line-strong); color: var(--sub); }
+
+      .agent { display: grid; grid-template-columns: 1.08fr .92fr; overflow: hidden; margin-bottom: 20px; transition: .2s; }
+      .agent:hover { transform: translateY(-3px); box-shadow: 0 22px 44px rgb(42 37 28 / 12%); }
+      .agent-info { padding: 28px; display: flex; flex-direction: column; align-items: flex-start; gap: 12px; }
+      .agent-info h3 { margin: 4px 0 0; font: 700 19px var(--serif); }
+      .arow { display: grid; grid-template-columns: 72px 1fr; gap: 12px; width: 100%; font-size: 13px; line-height: 1.75; }
+      .arow dt { margin: 0; font: 500 10px var(--mono); color: var(--faint); padding-top: 3px; }
+      .arow dd { margin: 0; color: var(--sub); }
+      .agent-links { display: flex; gap: 16px; margin-top: auto; padding-top: 14px; }
+      .agent-links a { font: 500 12px var(--mono); color: var(--green); border-bottom: 1px solid var(--green); padding-bottom: 1px; }
+      .agent-links a:hover { color: var(--brass); border-color: var(--brass); }
+      .agent-view { display: grid; place-items: center; padding: 26px; border-left: 1px solid var(--line); background: var(--green-soft); }
+      .mock { width: 100%; max-width: 380px; background: var(--paper); border: 1px solid var(--line-strong); border-radius: 10px; overflow: hidden; box-shadow: 0 14px 30px rgb(42 37 28 / 12%); }
+      .mock-bar { padding: 9px 14px; border-bottom: 1px solid var(--line); font: 500 10px var(--mono); color: var(--faint); }
+      .mock-body { padding: 14px; display: grid; gap: 12px; }
+      .msg { display: grid; grid-template-columns: 22px 1fr; gap: 8px; align-items: start; }
+      .avatar { width: 22px; height: 22px; border-radius: 6px; display: grid; place-items: center; font: 700 9px var(--mono); }
+      .avatar.u { background: var(--brass-soft); color: var(--brass); }
+      .avatar.a { background: var(--green); color: #f5efe3; }
+      .lines i { display: block; height: 7px; border-radius: 5px; background: #ece4d2; }
+      .lines i + i { margin-top: 6px; }
+      .tool { display: inline-flex; margin-top: 8px; padding: 4px 8px; border-radius: 6px; background: var(--green-soft); color: var(--green); font: 500 9px var(--mono); }
+
+      .work-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+      .work { padding: 24px; display: flex; flex-direction: column; align-items: flex-start; min-height: 220px; transition: .2s; }
+      .work:hover { transform: translateY(-4px); box-shadow: 0 22px 44px rgb(42 37 28 / 12%); }
+      .work.wide { grid-column: span 2; background: var(--green); color: #f5efe3; border-color: var(--green); }
+      .work.wide p { color: #c9d8cf; }
+      .work.wide .work-board { color: #e8c891; }
+      .work.wide .chip-line { border-color: rgb(245 239 227 / 35%); color: #c9d8cf; }
+      .work.wide .more { color: #f5efe3; border-color: #f5efe3; }
+      .work-board { font: 500 10px var(--mono); letter-spacing: .08em; color: var(--brass); }
+      .work h3 { margin: 14px 0 8px; font: 700 18px var(--serif); }
+      .work p { margin: 0; font-size: 13px; color: var(--sub); }
+      .result { margin-top: 12px; padding: 6px 10px; border-radius: 8px; background: rgb(245 239 227 / 14%); font: 500 11px var(--mono); color: #f0d9a8; }
+      .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+      .work .more { margin-top: auto; padding-top: 16px; font: 500 12px var(--mono); color: var(--green); border-bottom: 1px solid var(--green); padding-bottom: 1px; }
+
+      .about-grid { display: grid; grid-template-columns: .9fr 1.1fr; gap: 56px; }
+      .about-grid p.intro2 { margin: 14px 0 0; color: var(--sub); font-size: 14px; }
+      .timeline { border-top: 1px solid var(--line-strong); }
+      .t-item { display: grid; grid-template-columns: 128px 1fr; gap: 20px; padding: 18px 0; border-bottom: 1px solid var(--line); }
+      .t-item time { font: 500 11px var(--mono); color: var(--brass); padding-top: 4px; }
+      .t-item h3 { margin: 0; font: 700 15px var(--serif); }
+      .t-item p { margin: 4px 0 0; font-size: 13px; color: var(--sub); }
+
+      .article-list { border-top: 1px solid var(--line-strong); }
+      .article { display: grid; grid-template-columns: 90px 1fr auto; gap: 8px 20px; align-items: center; padding: 18px 4px; border-bottom: 1px solid var(--line); transition: .15s; }
+      .article:hover { background: var(--paper); }
+      .atype { font: 500 10px var(--mono); letter-spacing: .06em; }
+      .atype.o { color: var(--brass); } .atype.e { color: var(--green); }
+      .article h3 { margin: 0; font: 700 15px var(--serif); }
+      .article p { margin: 3px 0 0; font-size: 12px; color: var(--faint); }
+      .article .go { font-family: var(--mono); color: var(--faint); }
+      .article:hover .go { color: var(--green); }
+
+      .contact { display: grid; grid-template-columns: 1.1fr .9fr; gap: 40px; padding: 40px; }
+      .contact h2 { margin: 10px 0 8px; font: 900 clamp(22px, 2.6vw, 30px)/1.3 var(--serif); }
+      .contact p { margin: 0; color: var(--sub); font-size: 13px; max-width: 420px; }
+      .c-links { display: grid; gap: 2px; align-content: start; }
+      .c-links a { display: flex; align-items: center; gap: 12px; padding: 12px 4px; border-bottom: 1px solid var(--line); font-size: 13px; }
+      .c-links a:hover { color: var(--green); }
+      .c-links .v { margin-left: auto; font: 400 11px var(--mono); color: var(--faint); }
+
+      footer { border-top: 1px solid var(--line); padding: 24px 0; display: flex; justify-content: space-between; font: 400 11px var(--mono); color: var(--faint); }
+
+      @media (max-width: 860px) {
+        .hero, .about-grid, .contact { grid-template-columns: 1fr; }
+        .agent { grid-template-columns: 1fr; }
+        .agent-view { border-left: 0; border-top: 1px solid var(--line); }
+        .work-grid { grid-template-columns: 1fr; }
+        .work.wide { grid-column: span 1; }
+        .nav-links { display: none; }
+        section { padding: 56px 0; }
+        .hero { padding: 60px 0; }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="shell nav">
+        <a class="brand" href="#top"><i>档</i>Jacky 的产品手账</a>
+        <nav class="nav-links">
+          <a href="#top">首页</a><a href="#ai" class="hot">AI 探索</a><a href="#work">作品集</a><a href="#about">关于</a><a href="#articles">文章</a><a href="#contact">联系</a>
+        </nav>
+      </div>
+    </header>
+    <main class="shell" id="top">
+      <!-- HERO -->
+      <section class="hero first">
+        <div>
+          <p class="hero-tag"><i></i>AI PRODUCT MANAGER / EDUCATION SAAS</p>
+          <h1>教育 SaaS 产品经理，<br />正在构建<em>可落地的 AI 产品</em>。</h1>
+          <p class="lead">7 年教育行业与 B 端 SaaS 经验，多次从 0 到 1 并拿到商业化结果。现在把 Agent 产品设计与 Web Coding 结合，持续验证 AI 在真实工作场景中的价值。</p>
+          <div class="actions">
+            <a class="btn btn-p" href="#ai">查看 AI 探索 →</a>
+            <a class="btn btn-g" href="#work">浏览作品集</a>
+          </div>
+        </div>
+        <aside class="card evidence">
+          <div class="evidence-head"><span>CAREER EVIDENCE · VOL.07</span><b>■ 已核验</b></div>
+          <div class="proof"><span class="proof-no">壹</span><div><h3>行业深度 · 7 年教育行业与 B 端 SaaS</h3><p>两年在线教育 + 五年高校教育，理解复杂组织与业务场景。</p></div></div>
+          <div class="proof"><span class="proof-no">贰</span><div><h3>商业化结果 · 多次从 0 到 1</h3><p>SaaS 产品上线首年百万级业绩，累计千万级。</p></div></div>
+          <div class="proof"><span class="proof-no">叁</span><div><h3>AI 实践 · 产品设计 + Web Coding</h3><p>2 款 AI Agent 代表项目，可自行实现网站与产品原型。</p></div></div>
+        </aside>
+      </section>
+
+      <!-- AI 探索 -->
+      <section id="ai">
+        <p class="kicker">卷一 / AI EXPLORATION</p>
+        <h2 class="sec">从产品设计到可运行原型。</h2>
+        <p class="sec-sub">每个项目都从真实问题出发，以可体验的 Agent 原型结束。</p>
+        <article class="card agent">
+          <div class="agent-info">
+            <div class="chips" style="margin:0"><span class="chip chip-vibe">VIBE CODING</span><span class="chip chip-live">已上线</span></div>
+            <h3>教研 Copilot｜高校教研工作流 Agent</h3>
+            <dl class="arow"><dt>问题场景</dt><dd>教研资料整理与教案初稿撰写耗时严重，需要懂学科语境的协作型助手。</dd></dl>
+            <dl class="arow"><dt>我的角色</dt><dd>独立产品设计 + Web Coding 实现，负责任务拆解与评估闭环。</dd></dl>
+            <dl class="arow"><dt>关键能力</dt><dd>多轮任务规划 · 知识库检索（RAG）· 人工确认节点。</dd></dl>
+            <div class="agent-links"><a href="#">在线体验 ↗</a><a href="#">GitHub ↗</a></div>
+          </div>
+          <div class="agent-view"><div class="mock"><div class="mock-bar">jiaoyan-copilot / session</div><div class="mock-body"><div class="msg"><span class="avatar u">U</span><span class="lines"><i style="width:80%"></i><i style="width:45%"></i></span></div><div class="msg"><span class="avatar a">AI</span><span><span class="lines"><i style="width:92%"></i><i style="width:60%"></i></span><span class="tool">tool: knowledge_search() ✓</span></span></div></div></div></div>
+        </article>
+        <article class="card agent">
+          <div class="agent-info">
+            <div class="chips" style="margin:0"><span class="chip chip-vibe">VIBE CODING</span><span class="chip chip-iter">迭代中</span></div>
+            <h3>课堂观察员｜教学分析 Agent</h3>
+            <dl class="arow"><dt>问题场景</dt><dd>听课评课依赖手工记录，课堂关键事件难以结构化沉淀。</dd></dl>
+            <dl class="arow"><dt>我的角色</dt><dd>产品方案与评估标准设计，定义分析维度与人机协作边界。</dd></dl>
+            <dl class="arow"><dt>关键能力</dt><dd>长文本结构化抽取 · 维度化评分报告 · 可追溯引用。</dd></dl>
+            <div class="agent-links"><a href="#">案例说明 →</a></div>
+          </div>
+          <div class="agent-view"><div class="mock"><div class="mock-bar">class-observer / report</div><div class="mock-body"><div class="msg"><span class="avatar a">AI</span><span><span class="lines"><i style="width:86%"></i><i style="width:55%"></i></span><span class="tool">report: 互动密度 0.42 / 提问质量 B+</span></span></div><div class="msg"><span class="avatar u">U</span><span class="lines"><i style="width:62%"></i><i style="width:36%"></i></span></div></div></div></div>
+        </article>
+      </section>
+
+      <!-- 作品集 -->
+      <section id="work">
+        <p class="kicker">卷二 / SELECTED WORK</p>
+        <h2 class="sec">按业务线归档的产品作品。</h2>
+        <p class="sec-sub">教育 SaaS · 高校信息化 · 舆情数据 · AI 代表项目。</p>
+        <div class="work-grid">
+          <article class="card work wide"><span class="work-board">教育 SAAS / 旗舰</span><h3>智慧教学 SaaS 平台</h3><p>教、学、评一体化平台，从 0 到 1 完成产品定义、冷启动与商业化。</p><div class="result">▲ 首年百万级 / 累计千万级 / 续约率 85%+</div><div class="chips"><span class="chip chip-line">产品负责人</span><span class="chip chip-line">0 → 1 → 规模化</span></div><a class="more" href="#">阅读案例报告 →</a></article>
+          <article class="card work"><span class="work-board">高校信息化</span><h3>高校一网通办服务中台</h3><p>多角色、多流程协同的办事服务平台。</p><div class="chips"><span class="chip chip-line">产品规划</span></div><a class="more" href="#">查看详情 →</a></article>
+          <article class="card work"><span class="work-board">舆情与数据</span><h3>教育舆情监测系统</h3><p>面向教育主管部门的采集、研判与预警产品。</p><div class="chips"><span class="chip chip-line">产品设计</span></div><a class="more" href="#">查看详情 →</a></article>
+          <article class="card work"><span class="work-board">AI / AGENT</span><h3>AI Agent 代表项目</h3><p>从问题定义到可运行原型的完整实践。</p><div class="chips"><span class="chip chip-vibe">VIBE CODING</span></div><a class="more" href="#ai">进入 AI 探索 →</a></article>
+          <article class="card work"><span class="work-board">教育 SAAS</span><h3>教师发展成长平台</h3><p>高校教师培训、研修与成果沉淀一体化。</p><div class="chips"><span class="chip chip-line">0 → 1</span></div><a class="more" href="#">查看详情 →</a></article>
+        </div>
+      </section>
+
+      <!-- 关于 -->
+      <section id="about">
+        <p class="kicker">卷三 / ABOUT</p>
+        <div class="about-grid">
+          <div>
+            <h2 class="sec" style="margin-top:12px">一条清晰的转型脉络。</h2>
+            <p class="intro2">从在线教育到高校信息化，再到 AI Agent 实践。我相信 AI 产品的价值在于进入真实组织与业务流程，帮助人把原本难以完成的工作做得更好。</p>
+            <div class="actions"><a class="btn btn-g" href="#">下载简历 PDF ↓</a></div>
+          </div>
+          <div class="timeline">
+            <div class="t-item"><time>2019 — 2021</time><div><h3>在线教育（2 年）</h3><p>建立对教育用户与服务体验的理解。</p></div></div>
+            <div class="t-item"><time>2021 — 2026</time><div><h3>高校教育行业（5 年）</h3><p>多个 B 端 SaaS 从 0 到 1，覆盖复杂组织与业务场景。</p></div></div>
+            <div class="t-item"><time>2025 — NOW</time><div><h3>AI Agent 探索与 Web Coding</h3><p>两款 Agent 代表项目，独立实现可运行原型。</p></div></div>
+            <div class="t-item"><time>NEXT</time><div><h3>求职目标：AI 产品经理 <span class="chip chip-live" style="margin-left:6px">OPEN TO WORK</span></h3><p>成熟业务 / 大厂 / 教育科技方向。</p></div></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 文章 -->
+      <section id="articles">
+        <p class="kicker">卷四 / WRITING</p>
+        <h2 class="sec">产品思考与持续学习。</h2>
+        <p class="sec-sub">原创文章站内阅读，外部文章跳转发布平台。</p>
+        <div class="article-list">
+          <a class="article" href="#"><span class="atype o">ORIGINAL</span><div><h3>我如何用 Vibe Coding 在两周内做出一个 Agent 原型</h3><p>从 PRD 到可运行产品的独立开发复盘。</p></div><span class="go">→</span></a>
+          <a class="article" href="#"><span class="atype o">ORIGINAL</span><div><h3>教育 SaaS 的商业化，本质上是一场信任工程</h3><p>首年百万级业绩背后的三个关键决策。</p></div><span class="go">→</span></a>
+          <a class="article" href="#"><span class="atype e">EXTERNAL</span><div><h3>Agent 产品设计：先定义边界，再谈智能</h3><p>发布于公众号 · 阅读 3.2k</p></div><span class="go">↗</span></a>
+        </div>
+      </section>
+
+      <!-- 联系 -->
+      <section id="contact">
+        <div class="card contact">
+          <div>
+            <p class="kicker">卷五 / CONTACT</p>
+            <h2>最快的联系方式是微信。</h2>
+            <p>岗位机会、教育行业交流或合作探讨都欢迎。附上 JD 与业务背景可以聊得更高效。</p>
+          </div>
+          <div class="c-links">
+            <a href="#">微信<span class="v">点击复制微信号</span></a>
+            <a href="#">公众号<span class="v">产品档案馆</span></a>
+            <a href="#">飞书<span class="v">添加好友 ↗</span></a>
+            <a href="#">邮箱<span class="v">hello@example.com</span></a>
+            <a href="#">GitHub<span class="v">@jacky-pm ↗</span></a>
+          </div>
+        </div>
+      </section>
+    </main>
+    <footer class="shell"><span>© 2026 JACKY · DIRECTION D / WARM PAPER</span><span>EDUCATION × AI</span></footer>
+  </body>
+</html>

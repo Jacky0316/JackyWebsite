@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>方向 B · 终端档案｜Jacky</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,500;0,700;1,400&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet" />
+    <style>
+      :root {
+        --bg: #0c0f14; --panel: #10151d; --panel2: #0d1219;
+        --line: #1e2836; --line-strong: #2c3a4e;
+        --text: #c9d6e4; --sub: #8496ab; --faint: #566476;
+        --green: #3fb950; --cyan: #56d4dd; --amber: #d29922; --purple: #bc8cff; --red: #f47067;
+        --mono: "JetBrains Mono", monospace; --sans: "Noto Sans SC", sans-serif;
+        --max: 1080px;
+      }
+      * { box-sizing: border-box; }
+      body { margin: 0; background: var(--bg); color: var(--text); font-family: var(--sans); font-size: 15px; line-height: 1.8; }
+      a { color: inherit; text-decoration: none; }
+      .shell { width: min(var(--max), calc(100% - 40px)); margin: auto; }
+      .mono { font-family: var(--mono); }
+
+      header { position: sticky; top: 0; z-index: 10; background: rgb(12 15 20 / 88%); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
+      .nav { height: 56px; display: flex; align-items: center; gap: 18px; font: 500 12px var(--mono); }
+      .brand { color: var(--green); }
+      .brand span { color: var(--faint); }
+      .nav-links { margin-left: auto; display: flex; gap: 2px; }
+      .nav-links a { padding: 6px 11px; border-radius: 6px; color: var(--sub); transition: .15s; }
+      .nav-links a::before { content: "./"; color: var(--faint); }
+      .nav-links a:hover { color: var(--green); background: var(--panel); }
+      .nav-links a.hot { color: var(--cyan); }
+
+      .win { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+      .win-bar { display: flex; align-items: center; gap: 7px; padding: 9px 14px; background: var(--panel2); border-bottom: 1px solid var(--line); font: 500 11px var(--mono); color: var(--faint); }
+      .win-bar i { width: 10px; height: 10px; border-radius: 50%; }
+      .win-bar i:nth-child(1) { background: #ff5f57; } .win-bar i:nth-child(2) { background: #febc2e; } .win-bar i:nth-child(3) { background: #28c840; }
+      .win-bar .t { margin-left: 8px; }
+
+      .prompt { font: 500 12px var(--mono); color: var(--faint); margin: 0 0 14px; }
+      .prompt b { color: var(--green); font-weight: 500; }
+      .prompt .path { color: var(--cyan); }
+      section { padding: 72px 0; border-top: 1px dashed var(--line-strong); }
+      section.first { border-top: 0; }
+      h2.sec { margin: 0 0 6px; font: 700 clamp(24px, 3vw, 34px)/1.3 var(--mono); letter-spacing: -.02em; color: #e6edf5; }
+      h2.sec::before { content: "# "; color: var(--green); }
+      .sec-sub { margin: 0 0 36px; color: var(--sub); font-size: 13px; }
+      .sec-sub::before { content: "# "; color: var(--faint); font-family: var(--mono); }
+
+      /* HERO */
+      .hero { padding: 80px 0 72px; }
+      .hero-term { padding: 26px 26px 30px; font-family: var(--mono); }
+      .term-line { font-size: 13px; line-height: 2; }
+      .term-line .p { color: var(--green); }
+      .term-line .c { color: var(--text); }
+      .term-out { color: var(--sub); font-size: 12px; padding-left: 0; }
+      h1 { margin: 22px 0 16px; font: 700 clamp(30px, 4.2vw, 52px)/1.25 var(--mono); letter-spacing: -.03em; color: #e6edf5; }
+      h1 .hl { color: var(--cyan); }
+      .caret { display: inline-block; width: .55em; height: 1.05em; margin-left: 6px; background: var(--green); vertical-align: text-bottom; animation: blink 1.1s steps(1) infinite; }
+      @keyframes blink { 50% { opacity: 0; } }
+      .lead { margin: 0; max-width: 560px; color: var(--sub); font-size: 14px; }
+      .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; }
+      .btn { display: inline-flex; align-items: center; gap: 8px; padding: 11px 18px; border-radius: 8px; font: 500 13px var(--mono); transition: .16s; }
+      .btn-p { background: var(--green); color: #06210d; font-weight: 700; }
+      .btn-p:hover { box-shadow: 0 0 0 3px rgb(63 185 80 / 25%); transform: translateY(-2px); }
+      .btn-g { border: 1px solid var(--line-strong); color: var(--text); background: var(--panel); }
+      .btn-g:hover { border-color: var(--green); color: var(--green); transform: translateY(-2px); }
+
+      .evidence { margin-top: 40px; }
+      .evidence-body { padding: 8px 0; font-family: var(--mono); font-size: 13px; }
+      .kv { display: grid; grid-template-columns: 150px 1fr; gap: 6px 20px; padding: 12px 20px; border-bottom: 1px solid var(--line); }
+      .kv:last-child { border-bottom: 0; }
+      .kv .k { color: var(--purple); }
+      .kv .v { color: var(--text); }
+      .kv .v small { display: block; color: var(--faint); font-size: 11px; margin-top: 2px; }
+
+      .chip { display: inline-flex; align-items: center; gap: 6px; padding: 3px 9px; border-radius: 6px; font: 500 10px var(--mono); border: 1px solid; }
+      .chip-vibe { color: var(--purple); border-color: rgb(188 140 255 / 45%); background: rgb(188 140 255 / 8%); }
+      .chip-vibe::before { content: "</>"; }
+      .chip-live { color: var(--green); border-color: rgb(63 185 80 / 45%); background: rgb(63 185 80 / 8%); }
+      .chip-iter { color: var(--amber); border-color: rgb(210 153 34 / 45%); background: rgb(210 153 34 / 8%); }
+      .chip-line { color: var(--sub); border-color: var(--line-strong); }
+
+      .agent { margin-bottom: 20px; }
+      .agent-body { display: grid; grid-template-columns: 1.05fr .95fr; }
+      .agent-info { padding: 22px 24px; display: flex; flex-direction: column; align-items: flex-start; gap: 12px; }
+      .agent-info h3 { margin: 2px 0 0; font: 700 17px var(--mono); color: #e6edf5; }
+      .arow { display: grid; grid-template-columns: 74px 1fr; gap: 10px; width: 100%; font-size: 13px; line-height: 1.7; }
+      .arow dt { margin: 0; font: 500 10px var(--mono); color: var(--faint); padding-top: 4px; }
+      .arow dd { margin: 0; color: var(--sub); }
+      .agent-links { display: flex; gap: 18px; margin-top: auto; padding-top: 12px; font: 500 12px var(--mono); }
+      .agent-links a { color: var(--cyan); }
+      .agent-links a:hover { text-decoration: underline; }
+      .agent-view { border-left: 1px solid var(--line); background: var(--panel2); padding: 18px 20px; font: 12px/2 var(--mono); overflow: auto; }
+      .log .u { color: var(--cyan); } .log .a { color: var(--purple); } .log .t { color: var(--green); } .log .d { color: var(--faint); }
+
+      .work-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+      .work { padding: 20px; display: flex; flex-direction: column; align-items: flex-start; min-height: 200px; transition: .18s; }
+      .work:hover { border-color: var(--green); transform: translateY(-3px); }
+      .work.wide { grid-column: span 2; border-color: var(--line-strong); }
+      .work-board { font: 500 10px var(--mono); color: var(--amber); letter-spacing: .06em; }
+      .work h3 { margin: 12px 0 8px; font: 700 16px var(--mono); color: #e6edf5; }
+      .work p { margin: 0; font-size: 13px; color: var(--sub); }
+      .result { margin-top: 10px; font: 500 11px var(--mono); color: var(--green); }
+      .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+      .work .more { margin-top: auto; padding-top: 14px; font: 500 12px var(--mono); color: var(--cyan); }
+      .work .more:hover { text-decoration: underline; }
+
+      .about-grid { display: grid; grid-template-columns: .9fr 1.1fr; gap: 48px; }
+      .about-grid p.intro2 { margin: 0; color: var(--sub); font-size: 14px; }
+      .timeline { border-top: 1px solid var(--line); font-family: var(--mono); }
+      .t-item { display: grid; grid-template-columns: 130px 1fr; gap: 18px; padding: 16px 0; border-bottom: 1px solid var(--line); }
+      .t-item time { color: var(--amber); font-size: 12px; padding-top: 3px; }
+      .t-item h3 { margin: 0; font: 700 14px var(--mono); color: #e6edf5; }
+      .t-item p { margin: 4px 0 0; font: 400 12px/1.8 var(--sans); color: var(--sub); }
+
+      .article-list { border-top: 1px solid var(--line); font-family: var(--mono); }
+      .article { display: grid; grid-template-columns: 96px 1fr auto; gap: 6px 18px; align-items: center; padding: 16px 6px; border-bottom: 1px solid var(--line); transition: .15s; }
+      .article:hover { background: var(--panel); }
+      .atype { font-size: 10px; }
+      .atype.o { color: var(--purple); } .atype.e { color: var(--cyan); }
+      .article h3 { margin: 0; font: 500 14px var(--sans); color: var(--text); }
+      .article p { margin: 2px 0 0; font: 400 12px var(--sans); color: var(--faint); }
+      .article .go { color: var(--faint); }
+      .article:hover .go { color: var(--green); }
+
+      .contact { padding: 28px; font-family: var(--mono); }
+      .contact h2 { margin: 0 0 4px; font: 700 clamp(20px, 2.4vw, 28px)/1.3 var(--mono); color: #e6edf5; }
+      .contact h2::before { content: "# "; color: var(--green); }
+      .contact .sub2 { margin: 0 0 20px; color: var(--sub); font-size: 12px; }
+      .c-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+      .c-item { display: flex; align-items: center; gap: 10px; padding: 12px 14px; border: 1px solid var(--line); border-radius: 8px; font-size: 12px; transition: .15s; }
+      .c-item:hover { border-color: var(--green); color: var(--green); }
+      .c-item .k { color: var(--purple); }
+      .c-item .v { margin-left: auto; color: var(--faint); }
+
+      footer { border-top: 1px dashed var(--line-strong); padding: 22px 0; display: flex; justify-content: space-between; font: 400 11px var(--mono); color: var(--faint); }
+
+      @media (max-width: 860px) {
+        .agent-body, .about-grid { grid-template-columns: 1fr; }
+        .agent-view { border-left: 0; border-top: 1px solid var(--line); }
+        .work-grid { grid-template-columns: 1fr; }
+        .work.wide { grid-column: span 1; }
+        .nav-links { display: none; }
+        .c-grid { grid-template-columns: 1fr; }
+        section { padding: 52px 0; }
+        .kv { grid-template-columns: 1fr; gap: 2px; }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="shell nav">
+        <a class="brand" href="#top">jacky<span>@pm:~/site$</span></a>
+        <nav class="nav-links">
+          <a href="#top">home</a><a href="#ai" class="hot">ai-lab</a><a href="#work">work</a><a href="#about">about</a><a href="#articles">writing</a><a href="#contact">contact</a>
+        </nav>
+      </div>
+    </header>
+    <main class="shell" id="top">
+      <!-- HERO -->
+      <section class="hero first">
+        <div class="win">
+          <div class="win-bar"><i></i><i></i><i></i><span class="t">jacky@pm: ~/profile</span></div>
+          <div class="hero-term">
+            <p class="term-line"><span class="p">$</span> <span class="c">whoami --verbose</span></p>
+            <h1>教育 SaaS 产品经理，<br />正在构建<span class="hl">可落地的 AI 产品</span>。<span class="caret"></span></h1>
+            <p class="lead">// 7 年教育行业与 B 端 SaaS 经验<br />// 多次从 0 到 1，首年百万、累计千万级商业化结果<br />// 现在用 Agent 产品设计 + Web Coding 验证新的工作方式</p>
+            <div class="actions">
+              <a class="btn btn-p" href="#ai">./view_ai_lab.sh →</a>
+              <a class="btn btn-g" href="#work">./open_work.sh</a>
+            </div>
+          </div>
+        </div>
+        <div class="win evidence">
+          <div class="win-bar"><i></i><i></i><i></i><span class="t">cat career_evidence.yml</span></div>
+          <div class="evidence-body">
+            <div class="kv"><span class="k">01_industry:</span><span class="v">7 年教育行业与 B 端 SaaS<small># 两年在线教育 + 五年高校教育，理解复杂组织与业务场景</small></span></div>
+            <div class="kv"><span class="k">02_business:</span><span class="v">多次从 0 到 1，商业化结果可验证<small># SaaS 产品上线首年百万级业绩，累计千万级</small></span></div>
+            <div class="kv"><span class="k">03_ai_practice:</span><span class="v">2 款 AI Agent 项目 + Web Coding<small># 产品设计到可运行原型，独立完成</small></span></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- AI 探索 -->
+      <section id="ai">
+        <p class="prompt"><b>jacky@pm</b>:<span class="path">~/ai-lab</span>$ ls -la --agents</p>
+        <h2 class="sec">AI 探索</h2>
+        <p class="sec-sub">从产品设计到可运行原型，持续验证 AI 在真实工作场景中的价值。</p>
+        <article class="win agent">
+          <div class="win-bar"><i></i><i></i><i></i><span class="t">agents/jiaoyan-copilot/README.md</span></div>
+          <div class="agent-body">
+            <div class="agent-info">
+              <div class="chips" style="margin:0"><span class="chip chip-vibe">VIBE CODING</span><span class="chip chip-live">status: live</span></div>
+              <h3>教研 Copilot｜高校教研工作流 Agent</h3>
+              <dl class="arow"><dt>problem</dt><dd>教研资料整理与教案初稿撰写耗时严重，需要懂学科语境的协作型助手。</dd></dl>
+              <dl class="arow"><dt>role</dt><dd>独立产品设计 + Web Coding 实现，负责任务拆解与评估闭环。</dd></dl>
+              <dl class="arow"><dt>core</dt><dd>多轮任务规划 · 知识库检索（RAG）· 人工确认节点。</dd></dl>
+              <div class="agent-links"><a href="#">[ 在线体验 ]</a><a href="#">[ github ]</a></div>
+            </div>
+            <div class="agent-view log">
+              <div><span class="d"># session log</span></div>
+              <div><span class="u">user&gt;</span> 帮我生成《数据结构》第 3 章教案初稿</div>
+              <div><span class="a">agent&gt;</span> 拆解任务：目标 → 学情 → 活动设计…</div>
+              <div><span class="t">tool&gt;</span> knowledge_search(subject="CS") ✓ 12 refs</div>
+              <div><span class="t">tool&gt;</span> human_check(point="教学目标") ⏸ pending</div>
+              <div><span class="a">agent&gt;</span> 初稿已生成，等待确认后继续…</div>
+            </div>
+          </div>
+        </article>
+        <article class="win agent">
+          <div class="win-bar"><i></i><i></i><i></i><span class="t">agents/class-observer/README.md</span></div>
+          <div class="agent-body">
+            <div class="agent-info">
+              <div class="chips" style="margin:0"><span class="chip chip-vibe">VIBE CODING</span><span class="chip chip-iter">status: iterating</span></div>
+              <h3>课堂观察员｜教学分析 Agent</h3>
+              <dl class="arow"><dt>problem</dt><dd>听课评课依赖手工记录，课堂关键事件难以结构化沉淀。</dd></dl>
+              <dl class="arow"><dt>role</dt><dd>产品方案与评估标准设计，定义分析维度与人机协作边界。</dd></dl>
+              <dl class="arow"><dt>core</dt><dd>长文本结构化抽取 · 维度化评分报告 · 可追溯引用。</dd></dl>
+              <div class="agent-links"><a href="#">[ 案例说明 ]</a></div>
+            </div>
+            <div class="agent-view log">
+              <div><span class="d"># report.log</span></div>
+              <div><span class="a">agent&gt;</span> 已解析课堂实录 42 分钟</div>
+              <div><span class="t">metric&gt;</span> 互动密度 0.42 / 提问质量 B+</div>
+              <div><span class="t">trace&gt;</span> 结论引用片段 #07 #12 #19</div>
+              <div><span class="u">user&gt;</span> 导出维度化评课报告</div>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <!-- 作品集 -->
+      <section id="work">
+        <p class="prompt"><b>jacky@pm</b>:<span class="path">~/work</span>$ tree -L 2</p>
+        <h2 class="sec">作品集</h2>
+        <p class="sec-sub">按业务线归档：教育 SaaS / 高校信息化 / 舆情数据 / AI 项目。</p>
+        <div class="work-grid">
+          <article class="win work wide"><span class="work-board">edu-saas/ flagship</span><h3>智慧教学 SaaS 平台</h3><p>教、学、评一体化平台，从 0 到 1 完成定义、冷启动与商业化。</p><div class="result">→ result: 首年百万级 / 累计千万级 / 续约率 85%+</div><div class="chips"><span class="chip chip-line">产品负责人</span><span class="chip chip-line">0→1→scale</span></div><a class="more" href="#">cat case-report.md →</a></article>
+          <article class="win work"><span class="work-board">campus-infra/</span><h3>高校一网通办服务中台</h3><p>多角色、多流程协同的办事服务平台。</p><div class="chips"><span class="chip chip-line">产品规划</span></div><a class="more" href="#">open →</a></article>
+          <article class="win work"><span class="work-board">data-products/</span><h3>教育舆情监测系统</h3><p>面向主管部门的采集、研判与预警产品。</p><div class="chips"><span class="chip chip-line">产品设计</span></div><a class="more" href="#">open →</a></article>
+          <article class="win work"><span class="work-board">ai-agents/</span><h3>AI Agent 代表项目</h3><p>从问题定义到可运行原型的完整实践。</p><div class="chips"><span class="chip chip-vibe">VIBE CODING</span></div><a class="more" href="#ai">cd ../ai-lab →</a></article>
+          <article class="win work"><span class="work-board">edu-saas/</span><h3>教师发展成长平台</h3><p>高校教师培训、研修与成果沉淀一体化。</p><div class="chips"><span class="chip chip-line">0 → 1</span></div><a class="more" href="#">open →</a></article>
+        </div>
+      </section>
+
+      <!-- 关于 -->
+      <section id="about">
+        <p class="prompt"><b>jacky@pm</b>:<span class="path">~/about</span>$ git log --oneline --career</p>
+        <div class="about-grid">
+          <div>
+            <h2 class="sec">关于</h2>
+            <p class="intro2">从在线教育到高校信息化，再到 AI Agent 实践——每一步都建立在上一步的业务理解之上。</p>
+            <div class="actions"><a class="btn btn-g" href="#">wget resume.pdf ↓</a></div>
+          </div>
+          <div class="timeline">
+            <div class="t-item"><time>2019..2021</time><div><h3>commit: 在线教育（2 年）</h3><p>建立对教育用户与服务体验的理解。</p></div></div>
+            <div class="t-item"><time>2021..2026</time><div><h3>commit: 高校教育行业（5 年）</h3><p>多个 B 端 SaaS 从 0 到 1，覆盖复杂组织场景。</p></div></div>
+            <div class="t-item"><time>2025..now</time><div><h3>commit: AI Agent 探索与 Web Coding</h3><p>两款 Agent 代表项目，独立实现可运行原型。</p></div></div>
+            <div class="t-item"><time>HEAD</time><div><h3>target: AI 产品经理 <span class="chip chip-live">open_to_work: true</span></h3><p>成熟业务 / 大厂 / 教育科技方向。</p></div></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 文章 -->
+      <section id="articles">
+        <p class="prompt"><b>jacky@pm</b>:<span class="path">~/writing</span>$ ls -t</p>
+        <h2 class="sec">文章</h2>
+        <p class="sec-sub">原创站内阅读，外部文章跳转发布平台。</p>
+        <div class="article-list">
+          <a class="article" href="#"><span class="atype o">[ORIGINAL]</span><div><h3>我如何用 Vibe Coding 在两周内做出一个 Agent 原型</h3><p>从 PRD 到可运行产品的独立开发复盘。</p></div><span class="go">→</span></a>
+          <a class="article" href="#"><span class="atype o">[ORIGINAL]</span><div><h3>教育 SaaS 的商业化，本质上是一场信任工程</h3><p>首年百万级业绩背后的三个关键决策。</p></div><span class="go">→</span></a>
+          <a class="article" href="#"><span class="atype e">[EXTERNAL]</span><div><h3>Agent 产品设计：先定义边界，再谈智能</h3><p>发布于公众号 · 阅读 3.2k</p></div><span class="go">↗</span></a>
+        </div>
+      </section>
+
+      <!-- 联系 -->
+      <section id="contact">
+        <div class="win contact">
+          <div class="win-bar" style="margin:-28px -28px 22px"><i></i><i></i><i></i><span class="t">./contact --channels</span></div>
+          <h2>联系</h2>
+          <p class="sub2"># 不需要表单，直接连接。最快的联系方式是微信。</p>
+          <div class="c-grid">
+            <a class="c-item" href="#"><span class="k">wechat:</span><span class="v">jacky_pm [复制]</span></a>
+            <a class="c-item" href="#"><span class="k">wechat_mp:</span><span class="v">产品档案馆</span></a>
+            <a class="c-item" href="#"><span class="k">feishu:</span><span class="v">添加好友 ↗</span></a>
+            <a class="c-item" href="#"><span class="k">email:</span><span class="v">hello@example.com</span></a>
+            <a class="c-item" href="#"><span class="k">github:</span><span class="v">@jacky-pm ↗</span></a>
+          </div>
+        </div>
+      </section>
+    </main>
+    <footer class="shell"><span>© 2026 JACKY · DIRECTION B / TERMINAL</span><span>exit 0</span></footer>
+  </body>
+</html>

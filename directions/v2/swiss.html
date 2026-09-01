@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>方向 C · 瑞士网格｜Jacky</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+SC:wght@400;500;700;900&display=swap" rel="stylesheet" />
+    <style>
+      :root {
+        --bg: #ffffff; --ink: #101418; --sub: #4c5661; --faint: #8b95a1;
+        --line: #101418; --line-soft: #d9dee4;
+        --red: #e02424; --red-soft: #fdecec;
+        --sans: "Noto Sans SC", "Archivo", sans-serif; --disp: "Archivo", "Noto Sans SC", sans-serif; --mono: "JetBrains Mono", monospace;
+        --max: 1200px;
+      }
+      * { box-sizing: border-box; }
+      body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); font-size: 15px; line-height: 1.75; }
+      a { color: inherit; text-decoration: none; }
+      .shell { width: min(var(--max), calc(100% - 48px)); margin: auto; }
+      .mono { font-family: var(--mono); }
+
+      header { position: sticky; top: 0; z-index: 10; background: rgb(255 255 255 / 92%); backdrop-filter: blur(10px); border-bottom: 2px solid var(--line); }
+      .nav { height: 64px; display: flex; align-items: center; gap: 20px; }
+      .brand { font: 800 15px var(--disp); letter-spacing: .02em; display: flex; align-items: center; gap: 10px; }
+      .brand i { width: 12px; height: 12px; background: var(--red); }
+      .nav-links { margin-left: auto; display: flex; }
+      .nav-links a { padding: 8px 13px; font: 500 12px var(--mono); letter-spacing: .04em; color: var(--sub); border-left: 1px solid var(--line-soft); transition: .15s; }
+      .nav-links a:first-child { border-left: 0; }
+      .nav-links a:hover { color: var(--ink); background: var(--red-soft); }
+      .nav-links a.hot { color: var(--red); }
+
+      .kicker { display: inline-flex; align-items: center; gap: 8px; margin: 0; font: 500 11px var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--red); }
+      .kicker::before { content: ""; width: 22px; height: 2px; background: var(--red); }
+      section { padding: 84px 0; border-top: 2px solid var(--line); position: relative; }
+      section.first { border-top: 0; }
+      .sec-no { position: absolute; top: 30px; right: 0; font: 900 clamp(60px, 9vw, 120px)/1 var(--disp); letter-spacing: -.05em; color: transparent; -webkit-text-stroke: 1px var(--line-soft); pointer-events: none; }
+      h2.sec { margin: 14px 0 8px; font: 900 clamp(28px, 3.4vw, 44px)/1.15 var(--disp); letter-spacing: -.03em; }
+      .sec-sub { margin: 0 0 44px; color: var(--sub); font-size: 14px; max-width: 560px; }
+
+      .hero { display: grid; grid-template-columns: 1.1fr .9fr; gap: 0; padding: 90px 0; border-top: 0; }
+      .hero-l { padding-right: 56px; }
+      .hero-tag { display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px; border: 1.5px solid var(--line); font: 500 11px var(--mono); letter-spacing: .08em; }
+      .hero-tag i { width: 8px; height: 8px; background: var(--red); }
+      h1 { margin: 24px 0 20px; font: 900 clamp(36px, 4.6vw, 62px)/1.12 var(--disp); letter-spacing: -.035em; }
+      h1 u { text-decoration: none; box-shadow: inset 0 -.32em 0 var(--red-soft); border-bottom: 3px solid var(--red); }
+      .lead { margin: 0; max-width: 520px; color: var(--sub); font-size: 16px; line-height: 1.85; }
+      .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 34px; }
+      .btn { min-height: 48px; display: inline-flex; align-items: center; gap: 10px; padding: 13px 22px; font: 700 13px var(--mono); letter-spacing: .04em; transition: .15s; }
+      .btn-p { background: var(--ink); color: #fff; border: 2px solid var(--ink); }
+      .btn-p:hover { background: var(--red); border-color: var(--red); }
+      .btn-g { border: 2px solid var(--ink); color: var(--ink); }
+      .btn-g:hover { background: var(--ink); color: #fff; }
+
+      .evidence { border: 2px solid var(--line); }
+      .evidence-head { display: flex; justify-content: space-between; padding: 14px 20px; background: var(--ink); color: #fff; font: 500 10px var(--mono); letter-spacing: .14em; }
+      .evidence-head b { color: var(--red); -webkit-text-stroke: 0; }
+      .proof { display: grid; grid-template-columns: 76px 1fr; gap: 16px; padding: 22px 20px; border-bottom: 1px solid var(--line-soft); }
+      .proof:last-child { border-bottom: 0; }
+      .proof-no { font: 900 34px/1 var(--disp); color: var(--red); }
+      .proof h3 { margin: 0; font-size: 16px; font-weight: 700; }
+      .proof p { margin: 4px 0 0; font-size: 13px; color: var(--sub); }
+
+      .chip { display: inline-flex; align-items: center; gap: 6px; padding: 3px 9px; font: 500 10px var(--mono); letter-spacing: .05em; border: 1.5px solid var(--ink); }
+      .chip-vibe { border-color: var(--red); color: var(--red); background: var(--red-soft); }
+      .chip-vibe::before { content: "</>"; }
+      .chip-live { background: var(--ink); color: #fff; border-color: var(--ink); }
+      .chip-iter { background: #fff; color: var(--ink); }
+      .chip-line { border-color: var(--line-soft); color: var(--sub); }
+
+      .agent { display: grid; grid-template-columns: 1.05fr .95fr; border: 2px solid var(--line); margin-bottom: 20px; transition: .18s; }
+      .agent:hover { box-shadow: 10px 10px 0 var(--red-soft); transform: translate(-3px, -3px); }
+      .agent-info { padding: 28px; display: flex; flex-direction: column; align-items: flex-start; gap: 12px; }
+      .agent-info h3 { margin: 4px 0 0; font-size: 20px; font-weight: 900; letter-spacing: -.02em; }
+      .arow { display: grid; grid-template-columns: 76px 1fr; gap: 12px; width: 100%; font-size: 13px; line-height: 1.7; }
+      .arow dt { margin: 0; font: 500 10px var(--mono); color: var(--faint); padding-top: 3px; text-transform: uppercase; }
+      .arow dd { margin: 0; color: var(--sub); }
+      .agent-links { display: flex; gap: 18px; margin-top: auto; padding-top: 14px; }
+      .agent-links a { font: 700 12px var(--mono); color: var(--red); border-bottom: 2px solid var(--red); padding-bottom: 2px; }
+      .agent-links a:hover { background: var(--red-soft); }
+      .agent-view { display: grid; place-items: center; padding: 26px; border-left: 2px solid var(--line); background:
+        linear-gradient(var(--line-soft) 1px, transparent 1px) 0 0/100% 26px,
+        linear-gradient(90deg, var(--line-soft) 1px, transparent 1px) 0 0/26px 100%, #fafbfc; }
+      .mock { width: 100%; max-width: 380px; background: #fff; border: 2px solid var(--line); }
+      .mock-bar { padding: 9px 14px; border-bottom: 2px solid var(--line); font: 500 10px var(--mono); letter-spacing: .06em; display: flex; justify-content: space-between; }
+      .mock-bar b { color: var(--red); font-weight: 500; }
+      .mock-body { padding: 14px; display: grid; gap: 12px; }
+      .msg { display: grid; grid-template-columns: 24px 1fr; gap: 8px; align-items: start; }
+      .avatar { width: 24px; height: 24px; display: grid; place-items: center; font: 700 9px var(--mono); border: 1.5px solid var(--line); }
+      .avatar.a { background: var(--ink); color: #fff; border-color: var(--ink); }
+      .lines i { display: block; height: 8px; background: #e8ecf0; }
+      .lines i + i { margin-top: 6px; }
+      .tool { display: inline-flex; margin-top: 8px; padding: 4px 8px; background: var(--red-soft); color: var(--red); font: 500 9px var(--mono); border: 1px solid var(--red); }
+
+      .work-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; border: 2px solid var(--line); }
+      .work { padding: 26px 24px; display: flex; flex-direction: column; align-items: flex-start; min-height: 240px; border-right: 1px solid var(--line-soft); border-bottom: 1px solid var(--line-soft); transition: .15s; position: relative; }
+      .work:hover { background: var(--red-soft); }
+      .work.wide { grid-column: span 2; background: var(--ink); color: #fff; }
+      .work.wide:hover { background: #1a2129; }
+      .work.wide p { color: #aab4c0; }
+      .work.wide .work-board { color: var(--red); }
+      .work.wide .more { color: #fff; border-color: #fff; }
+      .work-board { font: 500 10px var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--red); }
+      .work h3 { margin: 16px 0 8px; font-size: 19px; font-weight: 900; letter-spacing: -.02em; }
+      .work p { margin: 0; font-size: 13px; color: var(--sub); }
+      .result { margin-top: 12px; font: 700 12px var(--mono); color: var(--red); }
+      .work.wide .result { color: #ff6b6b; }
+      .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+      .work.wide .chip-line { border-color: #39434f; color: #aab4c0; }
+      .work .more { margin-top: auto; padding-top: 16px; font: 700 12px var(--mono); color: var(--ink); border-bottom: 2px solid var(--ink); padding-bottom: 2px; }
+      .work .more:hover { color: var(--red); border-color: var(--red); }
+
+      .about-grid { display: grid; grid-template-columns: .9fr 1.1fr; gap: 64px; }
+      .about-grid p.intro2 { margin: 14px 0 0; color: var(--sub); font-size: 14px; }
+      .timeline { border-top: 2px solid var(--line); }
+      .t-item { display: grid; grid-template-columns: 140px 1fr; gap: 24px; padding: 20px 0; border-bottom: 1px solid var(--line-soft); }
+      .t-item time { font: 700 13px var(--mono); color: var(--red); padding-top: 3px; }
+      .t-item h3 { margin: 0; font-size: 16px; font-weight: 900; }
+      .t-item p { margin: 4px 0 0; font-size: 13px; color: var(--sub); }
+
+      .article-list { border-top: 2px solid var(--line); }
+      .article { display: grid; grid-template-columns: 100px 1fr auto; gap: 8px 24px; align-items: center; padding: 20px 4px; border-bottom: 1px solid var(--line-soft); transition: .15s; }
+      .article:hover { background: var(--red-soft); }
+      .atype { font: 700 10px var(--mono); letter-spacing: .1em; }
+      .atype.o { color: var(--red); } .atype.e { color: var(--faint); }
+      .article h3 { margin: 0; font-size: 16px; font-weight: 700; }
+      .article p { margin: 3px 0 0; font-size: 12px; color: var(--faint); }
+      .article .go { font: 900 20px var(--disp); }
+      .article:hover .go { color: var(--red); }
+
+      .contact { display: grid; grid-template-columns: 1fr 1fr; border: 2px solid var(--line); }
+      .contact-l { padding: 40px; border-right: 2px solid var(--line); }
+      .contact-l h2 { margin: 12px 0 10px; font: 900 clamp(26px, 3vw, 38px)/1.15 var(--disp); letter-spacing: -.03em; }
+      .contact-l p { margin: 0; color: var(--sub); font-size: 13px; max-width: 380px; }
+      .contact-r { display: grid; }
+      .c-item { display: flex; align-items: center; gap: 14px; padding: 0 28px; min-height: 66px; border-bottom: 1px solid var(--line-soft); font: 700 14px var(--sans); transition: .15s; }
+      .c-item:last-child { border-bottom: 0; }
+      .c-item:hover { background: var(--ink); color: #fff; }
+      .c-item .idx { font: 500 10px var(--mono); color: var(--red); }
+      .c-item .v { margin-left: auto; font: 400 11px var(--mono); color: var(--faint); }
+      .c-item:hover .v { color: #aab4c0; }
+
+      footer { border-top: 2px solid var(--line); padding: 24px 0; display: flex; justify-content: space-between; font: 500 11px var(--mono); letter-spacing: .06em; color: var(--sub); }
+
+      @media (max-width: 860px) {
+        .hero, .about-grid, .contact { grid-template-columns: 1fr; }
+        .hero-l { padding-right: 0; margin-bottom: 40px; }
+        .agent { grid-template-columns: 1fr; }
+        .agent-view { border-left: 0; border-top: 2px solid var(--line); }
+        .work-grid { grid-template-columns: 1fr; }
+        .work.wide { grid-column: span 1; }
+        .contact-l { border-right: 0; border-bottom: 2px solid var(--line); }
+        .nav-links { display: none; }
+        .sec-no { display: none; }
+        section { padding: 56px 0; }
+        .hero { padding: 56px 0; }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="shell nav">
+        <a class="brand" href="#top"><i></i>JACKY / PM</a>
+        <nav class="nav-links">
+          <a href="#top">INDEX</a><a href="#ai" class="hot">AI LAB</a><a href="#work">WORK</a><a href="#about">ABOUT</a><a href="#articles">WRITING</a><a href="#contact">CONTACT</a>
+        </nav>
+      </div>
+    </header>
+    <main class="shell" id="top">
+      <!-- HERO -->
+      <section class="hero first">
+        <div class="hero-l">
+          <p class="hero-tag"><i></i>AI PRODUCT MANAGER / EDUCATION SAAS</p>
+          <h1>教育 SaaS 产品经理，正在构建<u>可落地的 AI 产品</u>。</h1>
+          <p class="lead">7 年教育行业与 B 端 SaaS 经验，多次从 0 到 1 并拿到商业化结果。现在把 Agent 产品设计与 Web Coding 结合，持续验证 AI 在真实工作场景中的价值。</p>
+          <div class="actions">
+            <a class="btn btn-p" href="#ai">查看 AI 探索 →</a>
+            <a class="btn btn-g" href="#work">浏览作品集</a>
+          </div>
+        </div>
+        <aside class="evidence">
+          <div class="evidence-head"><span>CAREER EVIDENCE</span><b>■ VERIFIED</b></div>
+          <div class="proof"><span class="proof-no">01</span><div><h3>行业深度 · 7 年教育行业与 B 端 SaaS</h3><p>两年在线教育 + 五年高校教育，理解复杂组织与业务场景。</p></div></div>
+          <div class="proof"><span class="proof-no">02</span><div><h3>商业化结果 · 多次从 0 到 1</h3><p>SaaS 产品上线首年百万级业绩，累计千万级。</p></div></div>
+          <div class="proof"><span class="proof-no">03</span><div><h3>AI 实践 · 产品设计 + Web Coding</h3><p>2 款 AI Agent 代表项目，可自行实现网站与产品原型。</p></div></div>
+        </aside>
+      </section>
+
+      <!-- AI 探索 -->
+      <section id="ai">
+        <span class="sec-no">01</span>
+        <p class="kicker">AI Exploration</p>
+        <h2 class="sec">从产品设计到可运行原型。</h2>
+        <p class="sec-sub">每个项目都从真实问题出发，以可体验的 Agent 原型结束。</p>
+        <article class="agent">
+          <div class="agent-info">
+            <div class="chips" style="margin:0"><span class="chip chip-vibe">VIBE CODING</span><span class="chip chip-live">已上线</span></div>
+            <h3>教研 Copilot｜高校教研工作流 Agent</h3>
+            <dl class="arow"><dt>Problem</dt><dd>教研资料整理与教案初稿撰写耗时严重，需要懂学科语境的协作型助手。</dd></dl>
+            <dl class="arow"><dt>Role</dt><dd>独立产品设计 + Web Coding 实现，负责任务拆解与评估闭环。</dd></dl>
+            <dl class="arow"><dt>Core</dt><dd>多轮任务规划 · 知识库检索（RAG）· 人工确认节点。</dd></dl>
+            <div class="agent-links"><a href="#">在线体验 ↗</a><a href="#">GitHub ↗</a></div>
+          </div>
+          <div class="agent-view"><div class="mock"><div class="mock-bar"><span>jiaoyan-copilot / session</span><b>RUNNING</b></div><div class="mock-body"><div class="msg"><span class="avatar">U</span><span class="lines"><i style="width:80%"></i><i style="width:45%"></i></span></div><div class="msg"><span class="avatar a">AI</span><span><span class="lines"><i style="width:92%"></i><i style="width:60%"></i></span><span class="tool">tool: knowledge_search() ✓</span></span></div></div></div></div>
+        </article>
+        <article class="agent">
+          <div class="agent-info">
+            <div class="chips" style="margin:0"><span class="chip chip-vibe">VIBE CODING</span><span class="chip chip-iter">迭代中</span></div>
+            <h3>课堂观察员｜教学分析 Agent</h3>
+            <dl class="arow"><dt>Problem</dt><dd>听课评课依赖手工记录，课堂关键事件难以结构化沉淀。</dd></dl>
+            <dl class="arow"><dt>Role</dt><dd>产品方案与评估标准设计，定义分析维度与人机协作边界。</dd></dl>
+            <dl class="arow"><dt>Core</dt><dd>长文本结构化抽取 · 维度化评分报告 · 可追溯引用。</dd></dl>
+            <div class="agent-links"><a href="#">案例说明 →</a></div>
+          </div>
+          <div class="agent-view"><div class="mock"><div class="mock-bar"><span>class-observer / report</span><b>BETA</b></div><div class="mock-body"><div class="msg"><span class="avatar a">AI</span><span><span class="lines"><i style="width:86%"></i><i style="width:55%"></i></span><span class="tool">report: 互动密度 0.42 / 提问质量 B+</span></span></div><div class="msg"><span class="avatar">U</span><span class="lines"><i style="width:62%"></i><i style="width:36%"></i></span></div></div></div></div>
+        </article>
+      </section>
+
+      <!-- 作品集 -->
+      <section id="work">
+        <span class="sec-no">02</span>
+        <p class="kicker">Selected Work</p>
+        <h2 class="sec">按业务线归档的产品作品。</h2>
+        <p class="sec-sub">教育 SaaS · 高校信息化 · 舆情数据 · AI 代表项目。</p>
+        <div class="work-grid">
+          <article class="work wide"><span class="work-board">教育 SaaS / 旗舰</span><h3>智慧教学 SaaS 平台</h3><p>教、学、评一体化平台，从 0 到 1 完成产品定义、冷启动与商业化。</p><div class="result">▲ 首年百万级 / 累计千万级 / 续约率 85%+</div><div class="chips"><span class="chip chip-line">产品负责人</span><span class="chip chip-line">0 → 1 → 规模化</span></div><a class="more" href="#">阅读案例报告 →</a></article>
+          <article class="work"><span class="work-board">高校信息化</span><h3>高校一网通办服务中台</h3><p>多角色、多流程协同的办事服务平台。</p><div class="chips"><span class="chip chip-line">产品规划</span></div><a class="more" href="#">查看详情 →</a></article>
+          <article class="work"><span class="work-board">舆情与数据</span><h3>教育舆情监测系统</h3><p>面向教育主管部门的采集、研判与预警产品。</p><div class="chips"><span class="chip chip-line">产品设计</span></div><a class="more" href="#">查看详情 →</a></article>
+          <article class="work"><span class="work-board">AI / Agent</span><h3>AI Agent 代表项目</h3><p>从问题定义到可运行原型的完整实践。</p><div class="chips"><span class="chip chip-vibe">VIBE CODING</span></div><a class="more" href="#ai">进入 AI 探索 →</a></article>
+          <article class="work"><span class="work-board">教育 SaaS</span><h3>教师发展成长平台</h3><p>高校教师培训、研修与成果沉淀一体化。</p><div class="chips"><span class="chip chip-line">0 → 1</span></div><a class="more" href="#">查看详情 →</a></article>
+        </div>
+      </section>
+
+      <!-- 关于 -->
+      <section id="about">
+        <span class="sec-no">03</span>
+        <div class="about-grid">
+          <div>
+            <p class="kicker">About</p>
+            <h2 class="sec">一条清晰的转型脉络。</h2>
+            <p class="intro2">从在线教育到高校信息化，再到 AI Agent 实践。我相信 AI 产品的价值在于进入真实组织与业务流程，帮助人把原本难以完成的工作做得更好。</p>
+            <div class="actions"><a class="btn btn-g" href="#">下载简历 PDF ↓</a></div>
+          </div>
+          <div class="timeline">
+            <div class="t-item"><time>2019—2021</time><div><h3>在线教育（2 年）</h3><p>建立对教育用户与服务体验的理解。</p></div></div>
+            <div class="t-item"><time>2021—2026</time><div><h3>高校教育行业（5 年）</h3><p>多个 B 端 SaaS 从 0 到 1，覆盖复杂组织与业务场景。</p></div></div>
+            <div class="t-item"><time>2025—NOW</time><div><h3>AI Agent 探索与 Web Coding</h3><p>两款 Agent 代表项目，独立实现可运行原型。</p></div></div>
+            <div class="t-item"><time>NEXT</time><div><h3>求职目标：AI 产品经理</h3><p>成熟业务 / 大厂 / 教育科技方向。</p></div></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 文章 -->
+      <section id="articles">
+        <span class="sec-no">04</span>
+        <p class="kicker">Writing</p>
+        <h2 class="sec">产品思考与持续学习。</h2>
+        <p class="sec-sub">原创文章站内阅读，外部文章跳转发布平台。</p>
+        <div class="article-list">
+          <a class="article" href="#"><span class="atype o">ORIGINAL</span><div><h3>我如何用 Vibe Coding 在两周内做出一个 Agent 原型</h3><p>从 PRD 到可运行产品的独立开发复盘。</p></div><span class="go">→</span></a>
+          <a class="article" href="#"><span class="atype o">ORIGINAL</span><div><h3>教育 SaaS 的商业化，本质上是一场信任工程</h3><p>首年百万级业绩背后的三个关键决策。</p></div><span class="go">→</span></a>
+          <a class="article" href="#"><span class="atype e">EXTERNAL</span><div><h3>Agent 产品设计：先定义边界，再谈智能</h3><p>发布于公众号 · 阅读 3.2k</p></div><span class="go">↗</span></a>
+        </div>
+      </section>
+
+      <!-- 联系 -->
+      <section id="contact">
+        <span class="sec-no">05</span>
+        <div class="contact">
+          <div class="contact-l">
+            <p class="kicker">Contact</p>
+            <h2>最快的联系方式是微信。</h2>
+            <p>岗位机会、教育行业交流或合作探讨都欢迎。附上 JD 与业务背景可以聊得更高效。</p>
+          </div>
+          <div class="contact-r">
+            <a class="c-item" href="#"><span class="idx">C.01</span>微信<span class="v">点击复制微信号</span></a>
+            <a class="c-item" href="#"><span class="idx">C.02</span>公众号<span class="v">产品档案馆</span></a>
+            <a class="c-item" href="#"><span class="idx">C.03</span>飞书<span class="v">添加好友 ↗</span></a>
+            <a class="c-item" href="#"><span class="idx">C.04</span>邮箱<span class="v">hello@example.com</span></a>
+            <a class="c-item" href="#"><span class="idx">C.05</span>GitHub<span class="v">@jacky-pm ↗</span></a>
+          </div>
+        </div>
+      </section>
+    </main>
+    <footer class="shell"><span>© 2026 JACKY — DIRECTION C / SWISS GRID</span><span>EDUCATION × AI PRODUCT MANAGEMENT</span></footer>
+  </body>
+</html>

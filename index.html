@@ -1,779 +1,660 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh-CN">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>王任杰 - 个人网站</title>
-    <!-- Tailwind CSS v3.0+ -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Material Icons -->
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <!-- 自定义Tailwind配置 -->
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: {
-                            light: '#60a5fa',
-                            DEFAULT: '#3b82f6',
-                            dark: '#2563eb',
-                        },
-                        secondary: {
-                            light: '#f3f4f6',
-                            DEFAULT: '#e5e7eb',
-                            dark: '#d1d5db',
-                        },
-                        dark: {
-                            light: '#4b5563',
-                            DEFAULT: '#374151',
-                            dark: '#1f2937',
-                        }
-                    },
-                    fontFamily: {
-                        sans: ['Helvetica', 'Arial', 'sans-serif'],
-                    }
-                }
-            }
-        }
-    </script>
-    <style type="text/tailwindcss">
-        @layer components {
-            .section-title {
-                @apply text-2xl md:text-3xl font-bold mb-6 pb-2 border-b-2 border-primary inline-block;
-            }
-            
-            .card {
-                @apply bg-white rounded-xl shadow-md overflow-hidden transition-all duration-300 hover:shadow-xl hover:translate-y-[-5px];
-            }
-            
-            .btn-primary {
-                @apply px-5 py-2 bg-primary text-white font-semibold rounded-lg shadow-md hover:bg-primary-dark transition-transform duration-200 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50;
-            }
-            
-            .nav-link {
-                @apply px-3 py-2 rounded-md transition-colors duration-200 hover:bg-white/10;
-            }
-            
-            .socials-icon {
-                @apply text-gray-600 hover:text-primary-dark transition-colors duration-200 text-2xl;
-            }
-            
-            .portfolio-item {
-                @apply p-4 rounded-lg bg-white shadow transition-all duration-300 hover:shadow-md hover:scale-105;
-            }
-        }
-        
-        /* 自定义动画 */
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-        
-        .animate-float {
-            animation: float 5s ease-in-out infinite;
-        }
-        
-        /* 渐变文字 */
-        .gradient-text {
-            @apply text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-indigo-600;
-        }
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="王任杰（Jacky），B端&SaaS&AI产品经理。个人网站集中展示AI项目实践、作品集、技术博客与产品思考。" />
+    <title>Jacky Wang｜AI 产品经理 王任杰 · 作品集与博客</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@600;700;900&display=swap" rel="stylesheet" />
+    <style>
+      :root {
+        --paper: #f7f4ee; --surface: #fcfaf6; --ink: #243751; --navy: #162a45;
+        --blue: #315cc7; --vermilion: #d46849; --vermilion-soft: #f2dcd5;
+        --green: #1e7a5c; --green-soft: #e4f3ed;
+        --line: #d8d4cc; --muted: #687486; --faint: #98a1ac;
+        --font-display: "Noto Serif SC", "Songti SC", serif;
+        --font-body: "Noto Sans SC", "PingFang SC", sans-serif;
+        --font-mono: "DM Mono", "SFMono-Regular", monospace;
+        --content: 1180px; --radius: 14px; --shadow: 0 18px 42px rgb(27 43 68 / 9%);
+      }
+      * { box-sizing: border-box; } html { scroll-behavior: smooth; }
+      body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--font-body); font-size: 15px; line-height: 1.75; }
+      a { color: inherit; text-decoration: none; } button { font: inherit; color: inherit; cursor: pointer; }
+      .shell { width: min(var(--content), calc(100% - 48px)); margin: auto; }
+      .mono { font-family: var(--font-mono); }
+      ::selection { background: var(--vermilion-soft); color: var(--navy); }
+
+      /* ===== 导航 ===== */
+      header { position: sticky; top: 0; z-index: 30; background: color-mix(in srgb, var(--paper) 88%, transparent); border-bottom: 1px solid var(--line); backdrop-filter: blur(14px); }
+      .nav { height: 66px; display: flex; align-items: center; gap: 22px; }
+      .brand { display: flex; align-items: center; gap: 11px; }
+      .logo-mark { width: 30px; height: 30px; border-radius: 9px; background: var(--navy); color: #f7f4ee; display: grid; place-items: center; font: 900 15px var(--font-display); }
+      .brand-text { font: 700 15px var(--font-display); color: var(--vermilion); }
+      .brand-text small { display: block; font: 500 9px var(--font-mono); letter-spacing: .14em; color: var(--ink); }
+      .nav-links { margin-left: auto; display: flex; gap: 2px; }
+      .nav-links a { position: relative; padding: 9px 13px; border-radius: 8px; font-size: 13px; color: var(--muted); transition: .16s; }
+      .nav-links a:hover { color: var(--navy); background: var(--surface); }
+      .nav-links a.active { color: var(--vermilion); font-weight: 700; }
+      .nav-links a.active::after { content: ""; position: absolute; left: 13px; right: 13px; bottom: 3px; height: 2px; border-radius: 2px; background: var(--vermilion); }
+      .nav-right { display: flex; align-items: center; gap: 10px; }
+      .gh-link { display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface); font: 500 12px var(--font-mono); color: var(--navy); transition: .16s; }
+      .gh-link:hover { border-color: var(--vermilion); color: var(--vermilion); }
+      .gh-link svg { width: 15px; height: 15px; }
+      .menu-btn { display: none; width: 42px; height: 42px; place-items: center; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); color: var(--navy); }
+      .drawer { display: none; }
+      .drawer.open { display: block; position: fixed; inset: 66px 0 0; z-index: 29; background: var(--paper); padding: 20px 24px 28px; border-top: 1px solid var(--line); overflow: auto; }
+      .drawer a { display: flex; align-items: center; justify-content: space-between; min-height: 50px; border-bottom: 1px solid var(--line); font-size: 16px; color: var(--navy); }
+      .drawer a span { font: 500 10px var(--font-mono); color: var(--faint); }
+      .drawer a.active { color: var(--vermilion); font-weight: 700; }
+
+      /* ===== 板块通用 ===== */
+      section { padding: 92px 0; border-top: 1px solid var(--line); }
+      .kicker { margin: 0; font: 500 11px var(--font-mono); letter-spacing: .12em; color: var(--vermilion); }
+      /* 布局一：左对齐标题 + 右上胶囊 */
+      .sec-row { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; margin-bottom: 44px; }
+      .sec-row h2, .sec-center h2 { margin: 12px 0 8px; font: 900 clamp(28px, 3.4vw, 42px)/1.3 var(--font-display); letter-spacing: -.06em; color: var(--navy); }
+      .sec-row .sub, .sec-center .sub { margin: 0; color: var(--muted); font-size: 14px; max-width: 560px; }
+      .pill-more { flex-shrink: 0; display: inline-flex; align-items: center; gap: 8px; padding: 10px 18px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface); font: 500 12px var(--font-mono); color: var(--navy); transition: .16s; }
+      .pill-more:hover { border-color: var(--vermilion); color: var(--vermilion); }
+      /* 布局二：居中标题 */
+      .sec-center { text-align: center; margin-bottom: 44px; }
+      .sec-center .sub { margin-inline: auto; }
+
+      /* ===== Hero ===== */
+      .hero { padding: 96px 0 92px; }
+      .hero-main { display: grid; grid-template-columns: 1.12fr .88fr; gap: 56px; align-items: center; }
+      .hero-signals { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 56px; }
+      .signal { background: var(--surface); border: 1px solid var(--line); padding: 24px; transition: .18s; }
+      .signal:hover { transform: translateY(-3px); box-shadow: var(--shadow); }
+      .signal .no { margin-right: 10px; font: 700 16px var(--font-display); color: var(--vermilion); letter-spacing: .02em; }
+      .signal h3 { display: inline; margin: 0; font: 700 16px var(--font-display); color: var(--navy); }
+      .signal p { margin: 10px 0 0; font-size: 12.5px; color: var(--muted); line-height: 1.75; }
+      h1 { margin: 0 0 18px; font: 800 clamp(30px, 3.5vw, 38px)/1.4 var(--font-display); letter-spacing: .02em; color: #14161c; }
+      h1 em { font-style: normal; color: var(--vermilion); }
+      .lead { margin: 0; max-width: 520px; color: var(--muted); font-size: 16px; line-height: 1.9; }
+      .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
+      .btn { min-height: 47px; display: inline-flex; align-items: center; gap: 9px; padding: 12px 20px; border-radius: 999px; font-size: 14px; font-weight: 600; transition: .18s; }
+      .btn-p { background: var(--navy); color: #fff; }
+      .btn-p:hover { transform: translateY(-2px); box-shadow: var(--shadow); }
+      .btn-p b { color: #f2a387; font-weight: 500; font-family: var(--font-mono); }
+      .btn-g { border: 1px solid var(--line); background: var(--surface); color: var(--navy); }
+      .btn-g:hover { border-color: var(--navy); transform: translateY(-2px); }
+      /* Latest Reading 面板 */
+      .reading-panel { padding: 26px 28px; background: var(--navy); color: #fff; box-shadow: 14px 14px 0 var(--vermilion); }
+      .reading-panel-head { display: flex; justify-content: space-between; align-items: center; padding-bottom: 18px; border-bottom: 1px solid #425875; }
+      .reading-panel-head .t { font: 700 15px var(--font-display); letter-spacing: .02em; }
+      .reading-panel-head a { font: 500 11px var(--font-mono); color: #f2a387; }
+      .reading-panel-head a:hover { text-decoration: underline; }
+      .rp-item { display: grid; grid-template-columns: 1fr auto; gap: 4px 14px; padding: 15px 0; border-bottom: 1px solid #3a506b; }
+      .rp-item:last-child { border-bottom: 0; }
+      .rp-item time { grid-column: 1 / -1; font: 400 10px var(--font-mono); color: #8fa3bd; }
+      .rp-item h4 { margin: 0; font-size: 14px; font-weight: 500; line-height: 1.55; }
+      .rp-item .arr { color: #f2a387; font-family: var(--font-mono); font-size: 12px; align-self: center; }
+      .rp-item:hover h4 { color: #f2a387; }
+
+      /* ===== 封面占位 ===== */
+      .cover { position: relative; aspect-ratio: 16 / 10; overflow: hidden; display: grid; place-items: center; border-bottom: 1px solid var(--line); }
+      .cover .big { font: 900 clamp(44px, 5vw, 64px)/1 var(--font-display); letter-spacing: -.04em; opacity: .9; }
+      .cover .cap { position: absolute; left: 14px; bottom: 12px; font: 500 9px var(--font-mono); letter-spacing: .1em; opacity: .65; }
+      .cover.c-navy { background: linear-gradient(135deg, #162a45, #27436b); color: #f7f4ee; }
+      .cover.c-blue { background: linear-gradient(135deg, #315cc7, #5b7fd6); color: #f7f4ee; }
+      .cover.c-verm { background: linear-gradient(135deg, #d46849, #e08a6b); color: #fdf3ee; }
+      .cover.c-green { background: linear-gradient(135deg, #1e7a5c, #3a9a7a); color: #eef7f2; }
+      .cover.c-paper { background: var(--vermilion-soft); color: var(--vermilion); }
+      .cover .grid-deco { position: absolute; inset: 0; background-image: radial-gradient(rgb(255 255 255 / 12%) 1px, transparent 1px); background-size: 18px 18px; }
+      .cover.c-paper .grid-deco { background-image: radial-gradient(rgb(212 104 73 / 14%) 1px, transparent 1px); }
+      /* Agent 卡片封面内嵌模拟窗口 */
+      .cover .mini-win { position: relative; width: 78%; max-width: 300px; background: #fbfcff; border: 1px solid #b8c8e5; box-shadow: 0 14px 24px #162a4522; padding: 0 12px 12px; }
+      .cover .mini-bar { padding: 8px 0; border-bottom: 1px solid #d9e1f0; font: 500 8px var(--font-mono); color: #61708a; display: flex; gap: 5px; align-items: center; }
+      .cover .mini-bar i { width: 6px; height: 6px; border-radius: 50%; background: #d9e1f0; }
+      .cover .mini-lines { padding-top: 10px; display: grid; gap: 6px; }
+      .cover .mini-lines i { display: block; height: 6px; border-radius: 6px; background: #d8e2f3; }
+      .cover .mini-lines i:nth-child(2) { width: 70%; background: #edf1f8; }
+      .cover .mini-lines i:nth-child(3) { width: 45%; background: #edf1f8; }
+
+      /* ===== 卡片（布局一/二共用）===== */
+      .cards-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+      .cards-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+      .card { display: flex; flex-direction: column; background: var(--surface); border: 1px solid var(--line); transition: .2s; overflow: hidden; }
+      .card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
+      .card-body { padding: 18px 20px 20px; display: flex; flex-direction: column; gap: 6px; flex: 1; }
+      .card-meta { display: flex; align-items: center; gap: 8px; font: 500 10px var(--font-mono); color: var(--faint); }
+      .card h3 { margin: 2px 0 0; font-size: 17px; letter-spacing: -.04em; color: var(--navy); line-height: 1.45; }
+      .card p { margin: 0; font-size: 12.5px; color: var(--muted); line-height: 1.75; }
+      .card .foot { margin-top: auto; padding-top: 12px; font: 500 11px var(--font-mono); color: var(--vermilion); }
+      .chip { display: inline-flex; align-items: center; gap: 5px; padding: 3px 9px; border-radius: 999px; font: 500 9px var(--font-mono); }
+      .chip-vibe { background: var(--vermilion-soft); color: #a94730; border: 1px solid #d9b2a5; }
+      .chip-vibe::before { content: "</>"; }
+      .chip-live { background: var(--green-soft); color: var(--green); }
+      .chip-live::before { content: ""; width: 5px; height: 5px; border-radius: 50%; background: currentColor; }
+      .chip-iter { background: #e8eef9; color: var(--blue); }
+      .chip-iter::before { content: ""; width: 5px; height: 5px; border-radius: 50%; background: currentColor; }
+      .chip-line { border: 1px solid var(--line); color: var(--muted); }
+
+      /* ===== 首页 Latest Reading 信息流（布局二，无图）===== */
+      .feed { max-width: 860px; margin: 0 auto; border-top: 1px solid var(--line); }
+      .feed-item { display: grid; grid-template-columns: 150px 1fr auto; gap: 6px 22px; align-items: center; padding: 18px 4px; border-bottom: 1px solid var(--line); transition: background .16s; }
+      .feed-item:hover { background: var(--surface); }
+      .feed-item time { font: 400 11px var(--font-mono); color: var(--faint); }
+      .feed-item h4 { margin: 0; font-size: 15px; font-weight: 500; color: var(--navy); }
+      .feed-item p { margin: 3px 0 0; font-size: 12px; color: var(--muted); }
+      .feed-item .arr { font-family: var(--font-mono); color: var(--faint); }
+      .feed-item:hover .arr { color: var(--vermilion); }
+      .feed-src { font: 500 9px var(--font-mono); color: var(--vermilion); letter-spacing: .06em; }
+      .center-more { margin-top: 32px; display: flex; justify-content: center; }
+
+      /* ===== 子页面通用 ===== */
+      [data-view] { display: none; }
+      [data-view].active { display: block; animation: viewIn .3s ease; }
+      @keyframes viewIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+      .page-head { padding: 72px 0 40px; }
+      .crumb { font: 500 11px var(--font-mono); color: var(--faint); margin-bottom: 16px; }
+      .crumb a:hover { color: var(--vermilion); }
+      .page-head h1 { margin: 0 0 10px; font: 900 clamp(32px, 4vw, 48px)/1.25 var(--font-display); letter-spacing: -.06em; color: var(--navy); }
+      .page-head .sub { margin: 0; color: var(--muted); font-size: 15px; max-width: 620px; }
+      /* 分类 tabs（图#5 结构） */
+      .tabs { display: flex; gap: 4px; border-bottom: 1px solid var(--line); margin-bottom: 40px; }
+      .tabs button { padding: 12px 18px; background: none; border: 0; border-bottom: 2px solid transparent; margin-bottom: -1px; font-size: 14px; color: var(--muted); transition: .16s; }
+      .tabs button:hover { color: var(--navy); }
+      .tabs button.on { color: var(--vermilion); font-weight: 700; border-bottom-color: var(--vermilion); }
+      /* filter chips（图#11 结构） */
+      .filters { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 36px; }
+      .filters button { padding: 8px 16px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface); font-size: 12.5px; color: var(--muted); transition: .16s; }
+      .filters button:hover { border-color: var(--navy); color: var(--navy); }
+      .filters button.on { background: var(--navy); border-color: var(--navy); color: #fff; }
+      .filters button .n { font: 500 10px var(--font-mono); opacity: .6; margin-left: 4px; }
+      /* Research 式列表行（图#7） */
+      .res-row { display: grid; grid-template-columns: 190px 1fr auto; gap: 6px 32px; padding: 22px 4px; border-bottom: 1px solid var(--line); transition: background .16s; align-items: start; }
+      .res-row:first-of-type { border-top: 1px solid var(--line); }
+      .res-row:hover { background: var(--surface); }
+      .res-side .topic { display: block; font: 500 10px var(--font-mono); letter-spacing: .08em; color: var(--vermilion); }
+      .res-side time { display: block; margin-top: 5px; font: 400 11px var(--font-mono); color: var(--faint); }
+      .res-main h4 { margin: 0; font-size: 16px; font-weight: 700; color: var(--navy); line-height: 1.5; }
+      .res-main p { margin: 6px 0 0; font-size: 12.5px; color: var(--muted); max-width: 640px; }
+      .res-row .arr { font-family: var(--font-mono); color: var(--faint); padding-top: 4px; }
+      .res-row:hover .arr { color: var(--vermilion); }
+
+      /* ===== 关于我 & 联系 ===== */
+      .about-grid { display: grid; grid-template-columns: 1.05fr .95fr; gap: 64px; align-items: stretch; }
+      .about-copy p.intro2 { margin: 16px 0 0; color: var(--muted); font-size: 14px; line-height: 1.9; }
+      .timeline { border-top: 1px solid var(--line); margin-top: 28px; }
+      .t-item { display: grid; grid-template-columns: 128px 1fr; gap: 22px; padding: 20px 0; border-bottom: 1px solid var(--line); }
+      .t-item time { font: 500 11px var(--font-mono); color: var(--vermilion); padding-top: 4px; }
+      .t-item h3 { margin: 0; font-size: 15px; color: var(--navy); }
+      .t-item p { margin: 4px 0 0; font-size: 12.5px; color: var(--muted); }
+      .contact-box { background: var(--navy); color: #fff; padding: 34px; box-shadow: 10px 10px 0 var(--vermilion); display: flex; flex-direction: column; }
+      .contact-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; margin-bottom: 6px; }
+      .contact-box h3 { margin: 0; font: 900 22px/1.3 var(--font-display); }
+      .btn-resume { flex-shrink: 0; display: inline-flex; align-items: center; gap: 6px; padding: 8px 15px; border-radius: 999px; background: var(--vermilion); color: #fff; font-size: 12px; font-weight: 600; transition: .16s; }
+      .btn-resume:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgb(212 104 73 / 40%); }
+      .contact-box > p { margin: 0 0 14px; font-size: 13px; color: #b6c4d9; }
+      .c-item { display: flex; align-items: center; gap: 14px; flex: 1; min-height: 50px; padding: 9px 2px; border-bottom: 1px solid #405675; color: #dde5f0; font-size: 14px; width: 100%; background: none; border-top: 0; border-left: 0; border-right: 0; text-align: left; transition: .16s; }
+      .c-item:last-child { border-bottom: 0; }
+      .c-item:hover { color: #f2a387; }
+      .c-item .v { margin-left: auto; font: 400 11px var(--font-mono); color: #8fa3bd; }
+      .c-item:hover .v { color: #f2a387; }
+
+      footer { border-top: 1px solid var(--line); padding: 34px 0 40px; text-align: center; }
+      footer .copy { font: 400 12px var(--font-mono); color: var(--faint); }
+
+      @media (max-width: 960px) {
+        .hero-main, .about-grid { grid-template-columns: 1fr; }
+        .hero { padding: 64px 0; }
+        .hero-main { gap: 44px; }
+        .hero-signals { grid-template-columns: 1fr; margin-top: 48px; padding-top: 32px; }
+        .cards-4 { grid-template-columns: repeat(2, 1fr); }
+        .cards-3 { grid-template-columns: repeat(2, 1fr); }
+        .contact-box { position: static; }
+        .nav-links { display: none; }
+        .menu-btn { display: grid; }
+        section { padding: 64px 0; }
+        .res-row { grid-template-columns: 1fr auto; }
+        .res-side { grid-column: 1 / -1; display: flex; gap: 12px; align-items: baseline; }
+      }
+      @media (max-width: 620px) {
+        body { font-size: 16px; }
+        .cards-4, .cards-3 { grid-template-columns: 1fr; }
+        .feed-item { grid-template-columns: 1fr auto; }
+        .feed-item time { grid-column: 1 / -1; }
+        .sec-row { flex-direction: column; align-items: flex-start; gap: 14px; margin-bottom: 30px; }
+        .actions .btn { flex: 1; justify-content: center; }
+      }
     </style>
-</head>
-<body class="bg-gray-50 text-gray-800 font-sans">
-    <!-- 导航栏 -->
-    <nav class="bg-primary text-white sticky top-0 z-50 shadow-md">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-16">
-                <!-- Logo区域 -->
-                <div class="flex items-center">
-                    <a href="#" class="flex-shrink-0 flex items-center">
-                        <span class="material-icons text-3xl mr-2">person</span>
-                        <span class="font-bold text-xl">王任杰</span>
-                    </a>
-                </div>
-                
-                <!-- 桌面端导航链接 -->
-                <div class="hidden md:flex items-center space-x-4">
-                    <a href="#about" class="nav-link">关于我</a>
-                    <a href="#portfolio" class="nav-link">作品集</a>
-                    <a href="#solutions" class="nav-link">解决方案</a>
-                    <a href="#contact" class="nav-link">联系我</a>
-                    <button class="btn-primary ml-4">
-                        <span class="material-icons text-sm mr-1 align-middle">download</span>
-                        简历下载
-                    </button>
-                </div>
-                
-                <!-- 移动端菜单按钮 -->
-                <div class="md:hidden flex items-center">
-                    <button id="mobile-menu-button" class="inline-flex items-center justify-center p-2 rounded-md text-white hover:bg-white/10">
-                        <span class="material-icons">menu</span>
-                    </button>
-                </div>
-            </div>
-            
-            <!-- 移动端导航菜单 - 默认隐藏 -->
-            <div id="mobile-menu" class="md:hidden hidden pb-4">
-                <div class="flex flex-col space-y-2">
-                    <a href="#about" class="nav-link">关于我</a>
-                    <a href="#portfolio" class="nav-link">作品集</a>
-                    <a href="#solutions" class="nav-link">解决方案</a>
-                    <a href="#contact" class="nav-link">联系我</a>
-                    <button class="btn-primary mt-2">
-                        <span class="material-icons text-sm mr-1 align-middle">download</span>
-                        简历下载
-                    </button>
-                </div>
-            </div>
+  </head>
+  <body>
+    <header>
+      <div class="shell nav">
+        <a class="brand" href="#/" data-nav-link="home">
+          <span class="logo-mark">W</span>
+          <span class="brand-text">Jacky Wang<small>Personal Website</small></span>
+        </a>
+        <nav class="nav-links" id="navLinks">
+          <a href="#/" data-nav="home">首页</a>
+          <a href="#/ai" data-nav="ai">AI 探索</a>
+          <a href="#/work" data-nav="work">作品集</a>
+          <a href="#/writing" data-nav="writing">文章</a>
+          <a href="#about" data-nav="about" data-anchor="about">关于我</a>
+        </nav>
+        <div class="nav-right">
+          <a class="gh-link" href="https://github.com/Jacky0316" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5A11.5 11.5 0 0 0 .5 12a11.5 11.5 0 0 0 7.86 10.91c.58.11.79-.25.79-.56v-2c-3.2.7-3.87-1.54-3.87-1.54-.53-1.33-1.28-1.69-1.28-1.69-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.76 2.7 1.25 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.23-1.28-5.23-5.68 0-1.26.45-2.28 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11 11 0 0 1 5.79 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.83 1.19 3.09 0 4.41-2.69 5.38-5.25 5.67.41.35.77 1.05.77 2.12v3.15c0 .31.21.68.8.56A11.5 11.5 0 0 0 23.5 12 11.5 11.5 0 0 0 12 .5Z"/></svg>
+            Jacky0316
+          </a>
+          <button class="menu-btn" id="menuBtn" aria-label="打开菜单" aria-expanded="false">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+          </button>
         </div>
-    </nav>
+      </div>
+    </header>
+    <div class="drawer" id="drawer">
+      <a href="#/" data-nav="home">首页<span>HOME</span></a>
+      <a href="#/ai" data-nav="ai">AI 探索<span>AI LAB</span></a>
+      <a href="#/work" data-nav="work">作品集<span>WORK</span></a>
+      <a href="#/writing" data-nav="writing">文章<span>WRITING</span></a>
+      <a href="#about" data-nav="about" data-anchor="about">关于我<span>ABOUT & CONTACT</span></a>
+      <a href="https://github.com/Jacky0316" target="_blank" rel="noopener">GitHub<span>JACKY0316 ↗</span></a>
+    </div>
 
-    <!-- 英雄区域 -->
-    <section class="relative h-[70vh] min-h-[500px] flex items-center bg-dark text-white overflow-hidden">
-        <div class="absolute inset-0 z-0">
-            <img src="https://picsum.photos/1920/1080?random=1" alt="背景图片" class="w-full h-full object-cover opacity-40">
-        </div>
-        <div class="absolute inset-0 bg-gradient-to-r from-dark-dark/80 to-primary-dark/40 z-0"></div>
-        
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-            <div class="md:flex items-center">
-                <div class="md:w-2/3">
-                    <h1 class="text-4xl md:text-5xl font-bold mb-4">王任杰</h1>
-                    <p class="text-xl md:text-2xl mb-6 text-gray-200 font-light italic">人生不是轨道，而是旷野。</p>
-                    <p class="text-lg md:text-xl mb-8 max-w-2xl">B端/SaaS产品经理，专注于教育科技、内容安全与数据可视化领域，打造优质用户体验的数字产品。</p>
-                    <div class="flex flex-wrap gap-4">
-                        <a href="#portfolio" class="btn-primary">
-                            <span class="material-icons text-sm mr-1 align-middle">visibility</span>
-                            查看作品集
-                        </a>
-                        <a href="#contact" class="px-5 py-2 bg-white/20 text-white font-semibold rounded-lg hover:bg-white/30 transition-all duration-200">
-                            <span class="material-icons text-sm mr-1 align-middle">email</span>
-                            联系我
-                        </a>
-                    </div>
-                </div>
-                <div class="md:w-1/3 hidden md:block">
-                    <div class="relative w-64 h-64 mx-auto mt-10 md:mt-0 animate-float">
-                        <div class="absolute inset-0 rounded-full overflow-hidden border-4 border-white shadow-lg">
-                            <img src="https://picsum.photos/500/500?random=2" alt="王任杰" class="w-full h-full object-cover">
-                        </div>
-                    </div>
-                </div>
+    <main>
+      <!-- ==================== 首页 ==================== -->
+      <div data-view="home">
+        <div class="shell">
+          <!-- Hero -->
+          <section class="hero" id="top" style="border-top:0;">
+            <div class="hero-main">
+              <div>
+              <h1><em>B端 & SaaS & AI 产品经理，</em><br />AI 产品方法论搭建路上。</h1>
+              <p class="lead">8 年产品经理，深耕教育与政务领域多年，擅长 B 端 SaaS 和 Agent 产品设计与落地。主导过多款从 0 到 1 的企业级 SaaS 产品，可基于 Dify 与主流 Agent Harness 架构构建企业级 Agent 应用。</p>
+              <div class="actions">
+                <a class="btn btn-p" href="#/ai">查看 AI 探索 <b>→</b></a>
+                <a class="btn btn-g" href="#/work">浏览作品集 <b>→</b></a>
+              </div>
             </div>
-        </div>
-    </section>
+            <aside class="reading-panel">
+              <div class="reading-panel-head"><span class="t">Latest Reading</span><a href="#/reading">View more ↗</a></div>
+              <div id="heroReading"></div>
+            </aside>
+            </div>
+            <div class="hero-signals">
+              <div class="signal"><span class="no">01</span><h3>B端和AI产品经理</h3><p>8年资深B端产品经验，深耕教育与政务领域多年；擅长企业SaaS产品和AI产品设计，具备面向政企客户定制解决方案、商务宣讲与需求对齐能力。</p></div>
+              <div class="signal"><span class="no">02</span><h3>商业化产品实现</h3><p>全面统筹教育融媒体、教育舆情、思政教育、人事招聘四大产品线整体迭代与商业化闭环；多次牵头企业级SaaS从0‑1立项、搭建到商业化上线，多款主力产品达成千万级营收规模。</p></div>
+              <div class="signal"><span class="no">03</span><h3>AI赋能业务落地</h3><p>熟悉运用Vibe Coding快速实现产品demo，搭建AI产品经理高效工作流；熟练使用Dify平台搭建和编排工作流Agent，精通主流Agent Harness架构搭建落地企业级Agent应用，拥有成熟Agent评测方法论，可实现评测驱动的AI应用落地。</p></div>
+            </div>
+          </section>
 
-    <!-- 关于我 -->
-    <section id="about" class="py-16 bg-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 class="section-title">关于我</h2>
-            
-            <div class="md:flex gap-8">
-                <div class="md:w-1/3 mb-8 md:mb-0">
-                    <div class="card h-full">
-                        <div class="p-6">
-                            <div class="flex items-center mb-4">
-                                <span class="material-icons text-4xl text-primary mr-4">person</span>
-                                <div>
-                                    <h3 class="text-xl font-bold">王任杰</h3>
-                                    <p class="text-gray-500">B端/SaaS产品经理</p>
-                                </div>
-                            </div>
-                            <div class="space-y-3 text-gray-600">
-                                <div class="flex items-center">
-                                    <span class="material-icons text-primary mr-2">school</span>
-                                    <span>河南大学2018届优秀毕业生</span>
-                                </div>
-                                <div class="flex items-center">
-                                    <span class="material-icons text-primary mr-2">business</span>
-                                    <span>朴新教育科技集团有限公司</span>
-                                </div>
-                                <div class="flex items-center">
-                                    <span class="material-icons text-primary mr-2">business</span>
-                                    <span>河南省教育网有限公司</span>
-                                </div>
-                                <div class="flex items-center">
-                                    <span class="material-icons text-primary mr-2">business</span>
-                                    <span>河南策知科教有限公司</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="md:w-2/3">
-                    <div class="card h-full">
-                        <div class="p-6">
-                            <h3 class="text-xl font-bold mb-4 gradient-text">专业技能</h3>
-                            
-                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
-                                <div class="space-y-2">
-                                    <div>
-                                        <div class="flex justify-between">
-                                            <span class="font-medium">产品规划</span>
-                                            <span>90%</span>
-                                        </div>
-                                        <div class="h-2 bg-gray-200 rounded-full overflow-hidden">
-                                            <div class="h-full bg-primary rounded-full" style="width: 90%"></div>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div class="flex justify-between">
-                                            <span class="font-medium">原型设计</span>
-                                            <span>85%</span>
-                                        </div>
-                                        <div class="h-2 bg-gray-200 rounded-full overflow-hidden">
-                                            <div class="h-full bg-primary rounded-full" style="width: 85%"></div>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div class="flex justify-between">
-                                            <span class="font-medium">需求分析</span>
-                                            <span>95%</span>
-                                        </div>
-                                        <div class="h-2 bg-gray-200 rounded-full overflow-hidden">
-                                            <div class="h-full bg-primary rounded-full" style="width: 95%"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <div class="space-y-2">
-                                    <div>
-                                        <div class="flex justify-between">
-                                            <span class="font-medium">数据分析</span>
-                                            <span>80%</span>
-                                        </div>
-                                        <div class="h-2 bg-gray-200 rounded-full overflow-hidden">
-                                            <div class="h-full bg-primary rounded-full" style="width: 80%"></div>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div class="flex justify-between">
-                                            <span class="font-medium">用户体验</span>
-                                            <span>88%</span>
-                                        </div>
-                                        <div class="h-2 bg-gray-200 rounded-full overflow-hidden">
-                                            <div class="h-full bg-primary rounded-full" style="width: 88%"></div>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div class="flex justify-between">
-                                            <span class="font-medium">项目管理</span>
-                                            <span>85%</span>
-                                        </div>
-                                        <div class="h-2 bg-gray-200 rounded-full overflow-hidden">
-                                            <div class="h-full bg-primary rounded-full" style="width: 85%"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <h3 class="text-xl font-bold mb-4 gradient-text">专业领域</h3>
-                            <div class="flex flex-wrap gap-2">
-                                <span class="px-3 py-1 bg-primary-light/10 text-primary-dark rounded-full text-sm">SaaS产品</span>
-                                <span class="px-3 py-1 bg-primary-light/10 text-primary-dark rounded-full text-sm">教育科技</span>
-                                <span class="px-3 py-1 bg-primary-light/10 text-primary-dark rounded-full text-sm">内容安全</span>
-                                <span class="px-3 py-1 bg-primary-light/10 text-primary-dark rounded-full text-sm">数据可视化</span>
-                                <span class="px-3 py-1 bg-primary-light/10 text-primary-dark rounded-full text-sm">融媒体平台</span>
-                                <span class="px-3 py-1 bg-primary-light/10 text-primary-dark rounded-full text-sm">舆情监测</span>
-                                <span class="px-3 py-1 bg-primary-light/10 text-primary-dark rounded-full text-sm">HR招聘</span>
-                                <span class="px-3 py-1 bg-primary-light/10 text-primary-dark rounded-full text-sm">活动营销</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+          <!-- AI 探索（布局一） -->
+          <section id="sec-ai">
+            <div class="sec-row">
+              <div>
+                <h2>Vibe Coding · Agent 实战</h2>
+                <p class="sub">三个真实业务场景中的 Agent 项目：从问题定义、架构设计到可运行原型的完整实践。</p>
+              </div>
+              <a class="pill-more" href="#/ai">View more ↗</a>
             </div>
-        </div>
-    </section>
+            <div class="cards-3" id="homeAgents"></div>
+          </section>
 
-    <!-- 作品集 -->
-    <section id="portfolio" class="py-16 bg-gray-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 class="section-title">产品经理作品集</h2>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <!-- SaaS产品 -->
-                <div>
-                    <h3 class="text-xl font-bold mb-4 text-primary-dark">SaaS产品</h3>
-                    <div class="space-y-4">
-                        <div class="portfolio-item">
-                            <div class="flex items-start">
-                                <span class="material-icons text-primary mr-3">text_fields</span>
-                                <div>
-                                    <h4 class="font-semibold">文本校对</h4>
-                                    <p class="text-gray-600 text-sm mt-1">智能发现文本中的错误并提供修改建议</p>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="portfolio-item">
-                            <div class="flex items-start">
-                                <span class="material-icons text-primary mr-3">trending_up</span>
-                                <div>
-                                    <h4 class="font-semibold">舆情监测</h4>
-                                    <p class="text-gray-600 text-sm mt-1">实时监控多平台舆情，预警异常事件</p>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="portfolio-item">
-                            <div class="flex items-start">
-                                <span class="material-icons text-primary mr-3">theater_comedy</span>
-                                <div>
-                                    <h4 class="font-semibold">舆情演练</h4>
-                                    <p class="text-gray-600 text-sm mt-1">模拟舆情危机场景，提升应对能力</p>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="portfolio-item">
-                            <div class="flex items-start">
-                                <span class="material-icons text-primary mr-3">people</span>
-                                <div>
-                                    <h4 class="font-semibold">人事招聘</h4>
-                                    <p class="text-gray-600 text-sm mt-1">简化招聘流程，提高招聘效率</p>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="portfolio-item">
-                            <div class="flex items-start">
-                                <span class="material-icons text-primary mr-3">cast_connected</span>
-                                <div>
-                                    <h4 class="font-semibold">教育融媒体</h4>
-                                    <p class="text-gray-600 text-sm mt-1">整合教育资源，提供多媒体教学平台</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- 网站产品 -->
-                <div>
-                    <h3 class="text-xl font-bold mb-4 text-primary-dark">网站产品</h3>
-                    <div class="space-y-4">
-                        <div class="portfolio-item">
-                            <div class="flex items-start">
-                                <span class="material-icons text-primary mr-3">school</span>
-                                <div>
-                                    <h4 class="font-semibold">河南省高校思政网</h4>
-                                    <p class="text-gray-600 text-sm mt-1">思想政治教育资源整合平台</p>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="portfolio-item">
-                            <div class="flex items-start">
-                                <span class="material-icons text-primary mr-3">menu_book</span>
-                                <div>
-                                    <h4 class="font-semibold">思政教学资源平台</h4>
-                                    <p class="text-gray-600 text-sm mt-1">教学资源集中管理与分享</p>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="portfolio-item">
-                            <div class="flex items-start">
-                                <span class="material-icons text-primary mr-3">security</span>
-                                <div>
-                                    <h4 class="font-semibold">国家安全教育平台</h4>
-                                    <p class="text-gray-600 text-sm mt-1">普及国家安全知识教育</p>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="portfolio-item">
-                            <div class="flex items-start">
-                                <span class="material-icons text-primary mr-3">wb_sunny</span>
-                                <div>
-                                    <h4 class="font-semibold">阳光高考网站</h4>
-                                    <p class="text-gray-600 text-sm mt-1">提供高考信息和报考指导</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- 数据可视化产品 -->
-                <div>
-                    <h3 class="text-xl font-bold mb-4 text-primary-dark">数据可视化产品</h3>
-                    <div class="space-y-4">
-                        <div class="portfolio-item">
-                            <div class="flex items-start">
-                                <span class="material-icons text-primary mr-3">dashboard</span>
-                                <div>
-                                    <h4 class="font-semibold">舆情监测大屏</h4>
-                                    <p class="text-gray-600 text-sm mt-1">实时展示舆情数据与异常预警</p>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="portfolio-item">
-                            <div class="flex items-start">
-                                <span class="material-icons text-primary mr-3">shield</span>
-                                <div>
-                                    <h4 class="font-semibold">内容安全大屏</h4>
-                                    <p class="text-gray-600 text-sm mt-1">监控内容风险与安全态势</p>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="portfolio-item">
-                            <div class="flex items-start">
-                                <span class="material-icons text-primary mr-3">cast</span>
-                                <div>
-                                    <h4 class="font-semibold">教育融媒体大屏</h4>
-                                    <p class="text-gray-600 text-sm mt-1">展示融媒体平台运营数据</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- H5活动产品 -->
-                <div>
-                    <h3 class="text-xl font-bold mb-4 text-primary-dark">H5活动产品</h3>
-                    <div class="space-y-4">
-                        <div class="portfolio-item">
-                            <div class="flex items-start">
-                                <span class="material-icons text-primary mr-3">quiz</span>
-                                <div>
-                                    <h4 class="font-semibold">知识答题竞赛</h4>
-                                    <p class="text-gray-600 text-sm mt-1">趣味化知识问答与竞赛活动</p>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="portfolio-item">
-                            <div class="flex items-start">
-                                <span class="material-icons text-primary mr-3">thumb_up</span>
-                                <div>
-                                    <h4 class="font-semibold">投票点赞活动</h4>
-                                    <p class="text-gray-600 text-sm mt-1">社交化投票与互动活动</p>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="portfolio-item">
-                            <div class="flex items-start">
-                                <span class="material-icons text-primary mr-3">rate_review</span>
-                                <div>
-                                    <h4 class="font-semibold">比赛评审活动</h4>
-                                    <p class="text-gray-600 text-sm mt-1">多维度评审与结果统计</p>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="portfolio-item">
-                            <div class="flex items-start">
-                                <span class="material-icons text-primary mr-3">qr_code_scanner</span>
-                                <div>
-                                    <h4 class="font-semibold">会议活动签到</h4>
-                                    <p class="text-gray-600 text-sm mt-1">便捷的电子签到与统计系统</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+          <!-- Latest Reading（布局二，纯文字信息流） -->
+          <section id="sec-reading">
+            <div class="sec-center">
+              <h2>Latest Reading</h2>
+              <p class="sub">热门推荐 · 来自个人 Obsidian Agent 设计知识库的已读精选。</p>
             </div>
-            
-            <!-- 作品展示区 -->
-            <div class="mt-16">
-                <h3 class="text-xl font-bold mb-8 text-center">精选作品展示</h3>
-                
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <div class="card overflow-hidden group">
-                        <div class="relative h-48 overflow-hidden">
-                            <img src="https://picsum.photos/800/600?random=3" alt="舆情监测系统" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
-                            <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end p-4">
-                                <h4 class="text-white font-bold">舆情监测系统</h4>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="card overflow-hidden group">
-                        <div class="relative h-48 overflow-hidden">
-                            <img src="https://picsum.photos/800/600?random=4" alt="教育融媒体平台" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
-                            <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end p-4">
-                                <h4 class="text-white font-bold">教育融媒体平台</h4>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="card overflow-hidden group">
-                        <div class="relative h-48 overflow-hidden">
-                            <img src="https://picsum.photos/800/600?random=5" alt="数据可视化大屏" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
-                            <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end p-4">
-                                <h4 class="text-white font-bold">数据可视化大屏</h4>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+            <div class="feed" id="homeFeed"></div>
+            <div class="center-more"><a class="pill-more" href="#/reading">View more ↗</a></div>
+          </section>
 
-    <!-- 解决方案 -->
-    <section id="solutions" class="py-16 bg-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 class="section-title">产品解决方案</h2>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- 解决方案1 -->
-                <div class="card p-6">
-                    <div class="flex items-center mb-4">
-                        <div class="w-12 h-12 rounded-full bg-primary-light/20 flex items-center justify-center mr-4">
-                            <span class="material-icons text-primary">cast_connected</span>
-                        </div>
-                        <h3 class="text-lg font-bold">高校教育融媒体解决方案</h3>
-                    </div>
-                    <p class="text-gray-600 mb-4">整合校内媒体资源，建立统一内容生产、分发、管理平台，提升学校信息传播效率与影响力。</p>
-                    <div class="flex flex-wrap gap-2">
-                        <span class="px-2 py-1 bg-primary-light/10 text-primary-dark rounded-full text-xs">内容管理</span>
-                        <span class="px-2 py-1 bg-primary-light/10 text-primary-dark rounded-full text-xs">多渠道分发</span>
-                        <span class="px-2 py-1 bg-primary-light/10 text-primary-dark rounded-full text-xs">数据分析</span>
-                    </div>
-                </div>
-                
-                <!-- 解决方案2 -->
-                <div class="card p-6">
-                    <div class="flex items-center mb-4">
-                        <div class="w-12 h-12 rounded-full bg-primary-light/20 flex items-center justify-center mr-4">
-                            <span class="material-icons text-primary">trending_up</span>
-                        </div>
-                        <h3 class="text-lg font-bold">高校舆情监测服务解决方案</h3>
-                    </div>
-                    <p class="text-gray-600 mb-4">实时监测校园相关舆情，及时发现潜在危机，提供专业分析报告与应对建议。</p>
-                    <div class="flex flex-wrap gap-2">
-                        <span class="px-2 py-1 bg-primary-light/10 text-primary-dark rounded-full text-xs">多源监测</span>
-                        <span class="px-2 py-1 bg-primary-light/10 text-primary-dark rounded-full text-xs">预警机制</span>
-                        <span class="px-2 py-1 bg-primary-light/10 text-primary-dark rounded-full text-xs">危机管理</span>
-                    </div>
-                </div> 
+          <!-- SELECTED WORK（布局一，4 个业务线卡） -->
+          <section id="sec-work">
+            <div class="sec-row">
+              <div>
+                <h2>按业务线归档的产品作品。</h2>
+                <p class="sub">SaaS、网站、教育政务与数据可视化，四条业务线、20 个产品项目。</p>
+              </div>
+              <a class="pill-more" href="#/work">View more ↗</a>
+            </div>
+            <div class="cards-4" id="homeWork"></div>
+          </section>
 
-                <!-- 解决方案3 -->
-                <div class="card p-6">
-                    <div class="flex items-center mb-4">
-                        <div class="w-12 h-12 rounded-full bg-primary-light/20 flex items-center justify-center mr-4">
-                            <span class="material-icons text-primary">shield</span>
-                        </div>
-                        <h3 class="text-lg font-bold">高校内容安全服务解决方案</h3>
-                    </div>
-                    <p class="text-gray-600 mb-4">为高校提供内容安全审核、有害信息监测与处置服务，保障校园网络环境健康安全。</p>
-                    <div class="flex flex-wrap gap-2">
-                        <span class="px-2 py-1 bg-primary-light/10 text-primary-dark rounded-full text-xs">敏感内容识别</span>
-                        <span class="px-2 py-1 bg-primary-light/10 text-primary-dark rounded-full text-xs">实时审核</span>
-                        <span class="px-2 py-1 bg-primary-light/10 text-primary-dark rounded-full text-xs">安全合规</span>
-                    </div>
-                </div>               
-                            
-                 <!-- 解决方案4 -->
-                 <div class="card p-6">
-                    <div class="flex items-center mb-4">
-                        <div class="w-12 h-12 rounded-full bg-primary-light/20 flex items-center justify-center mr-4">
-                            <span class="material-icons text-primary">people</span>
-                        </div>
-                        <h3 class="text-lg font-bold">人事招聘产品解决方案</h3>
-                    </div>
-                    <p class="text-gray-600 mb-4">打造全流程招聘管理平台，提升招聘效率，降低招聘成本，助力企业精准找到合适人才。</p>
-                    <div class="flex flex-wrap gap-2">
-                        <span class="px-2 py-1 bg-primary-light/10 text-primary-dark rounded-full text-xs">简历筛选</span>
-                        <span class="px-2 py-1 bg-primary-light/10 text-primary-dark rounded-full text-xs">面试管理</span>
-                        <span class="px-2 py-1 bg-primary-light/10 text-primary-dark rounded-full text-xs">人才库</span>
-                    </div>
-                </div>           
-                            
-                 <!-- 解决方案5 -->
-                 <div class="card p-6">
-                    <div class="flex items-center mb-4">
-                        <div class="w-12 h-12 rounded-full bg-primary-light/20 flex items-center justify-center mr-4">
-                            <span class="material-icons text-primary">school</span>
-                        </div>
-                        <h3 class="text-lg font-bold">大思政课一体化平台解决方案</h3>
-                    </div>
-                    <p class="text-gray-600 mb-4">整合思政教育资源，提供教学、学习、互动、考核一体化平台，提升思政教育质量与效果。</p>
-                    <div class="flex flex-wrap gap-2">
-                        <span class="px-2 py-1 bg-primary-light/10 text-primary-dark rounded-full text-xs">资源库</span>
-                        <span class="px-2 py-1 bg-primary-light/10 text-primary-dark rounded-full text-xs">线上课堂</span>
-                        <span class="px-2 py-1 bg-primary-light/10 text-primary-dark rounded-full text-xs">效果评估</span>
-                    </div>
-                </div>           
+          <!-- WRITING（布局二，带封面图） -->
+          <section id="sec-writing">
+            <div class="sec-center">
+              <h2>原创文章，持续输出。</h2>
+              <p class="sub">站内文章站内阅读，公众号文章外链跳转。默认展示最新发布的三篇。</p>
             </div>
-       </div>
-    </section>
-                
-    <!-- 联系我 -->
-    <section id="contact" class="py-16 bg-gray-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 class="section-title">联系我</h2>
-            
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <!-- 联系信息 -->
-                <div class="card p-6 md:col-span-1">
-                    <h3 class="text-xl font-bold mb-6 gradient-text">个人信息</h3>
-                    
-                    <div class="space-y-4">
-                        <div class="flex items-center">
-                            <div class="w-10 h-10 rounded-full bg-primary-light/20 flex items-center justify-center mr-4">
-                                <span class="material-icons text-primary">person</span>
-                            </div>
-                            <div>
-                                <h4 class="font-semibold">姓名</h4>
-                                <p class="text-gray-600">王任杰</p>
-                            </div>
-                        </div>
-                        
-                        <div class="flex items-center">
-                            <div class="w-10 h-10 rounded-full bg-primary-light/20 flex items-center justify-center mr-4">
-                                <span class="material-icons text-primary">wechat</span>
-                            </div>
-                            <div>
-                                <h4 class="font-semibold">微信</h4>
-                                <p class="text-gray-600">wrj201105033</p>
-                            </div>
-                        </div>
-                        
-                        <div class="flex items-center">
-                            <div class="w-10 h-10 rounded-full bg-primary-light/20 flex items-center justify-center mr-4">
-                                <span class="material-icons text-primary">rss_feed</span>
-                            </div>
-                            <div>
-                                <h4 class="font-semibold">微信公众号</h4>
-                                <p class="text-gray-600">产品汪杰克</p>
-                            </div>
-                        </div>
-                        
-                        <div class="flex items-center">
-                            <div class="w-10 h-10 rounded-full bg-primary-light/20 flex items-center justify-center mr-4">
-                                <span class="material-icons text-primary">videocam</span>
-                            </div>
-                            <div>
-                                <h4 class="font-semibold">抖音</h4>
-                                <p class="text-gray-600">飞舞帅杰</p>
-                            </div>
-                        </div>
-                        
-                        <div class="flex items-center">
-                            <div class="w-10 h-10 rounded-full bg-primary-light/20 flex items-center justify-center mr-4">
-                                <span class="material-icons text-primary">play_circle</span>
-                            </div>
-                            <div>
-                                <h4 class="font-semibold">bilibili</h4>
-                                <p class="text-gray-600">Lucky丶帅杰</p>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="mt-8">
-                        <h3 class="font-bold mb-4">关注我的社交媒体</h3>
-                        <div class="flex space-x-4">
-                            <a href="#" class="socials-icon">
-                                <span class="material-icons">wechat</span>
-                            </a>
-                            <a href="#" class="socials-icon">
-                                <span class="material-icons">smart_display</span>
-                            </a>
-                            <a href="#" class="socials-icon">
-                                <span class="material-icons">play_circle</span>
-                            </a>
-                            <a href="#" class="socials-icon">
-                                <span class="material-icons">mail</span>
-                            </a>
-                        </div>
-                    </div>
+            <div class="cards-3" id="homeWriting"></div>
+            <div class="center-more"><a class="pill-more" href="#/writing">View more ↗</a></div>
+          </section>
+
+          <!-- 关于我 & 联系（合并） -->
+          <section id="about">
+            <div class="about-grid">
+              <div class="about-copy">
+                <h2 style="margin:0; font:900 clamp(28px,3.4vw,42px)/1.3 var(--font-display); letter-spacing:-.06em; color:var(--navy);">关于我</h2>
+                <p class="intro2">河南省焦作市温县人，河南大学网络工程专业毕业，从事产品经理 8 年，深耕教育与政务领域多年，擅长 B 端 SaaS 和 Agent 产品设计。主导过多款从 0 到 1 的企业级 SaaS 产品；基于 Dify 与主流 Agent Harness 架构构建出企业级 Agent 应用。个人优势在于具备多次 0-1 项目落地经验，沟通和换位思考能力强，擅长洞察用户和业务需求，输出产品解决方案，更是具备多年产品解决方案讲解和项目招投标相关业务能力。</p>
+                <div class="timeline">
+                  <div class="t-item"><time>2018.9 — 2020.9</time><div><h3>朴新教育科技集团 · 产品经理</h3><p>负责全日制学校 ERP 系统与朴新网校 APP 产品迭代工作。</p></div></div>
+                  <div class="t-item"><time>2020.10 — 2026.2</time><div><h3>河南策知科教 · 产品负责人</h3><p>全面统筹教育融媒体、教育舆情、思政教育、人事招聘四大核心产品线，主导 20 余款 SaaS 产品与政务系统上线。</p></div></div>
                 </div>
-                
-                <!-- 联系表单 -->
-                <div class="card p-6 md:col-span-2">
-                    <h3 class="text-xl font-bold mb-6 gradient-text">给我留言</h3>
-                    
-                    <form class="space-y-4">
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div>
-                                <label for="name" class="block text-sm font-medium text-gray-700 mb-1">姓名</label>
-                                <input type="text" id="name" name="name" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
-                            </div>
-                            <div>
-                                <label for="email" class="block text-sm font-medium text-gray-700 mb-1">邮箱</label>
-                                <input type="email" id="email" name="email" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
-                            </div>
-                        </div>
-                        <div>
-                            <label for="subject" class="block text-sm font-medium text-gray-700 mb-1">主题</label>
-                            <input type="text" id="subject" name="subject" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
-                        </div>
-                        <div>
-                            <label for="message" class="block text-sm font-medium text-gray-700 mb-1">留言内容</label>
-                            <textarea id="message" name="message" rows="4" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"></textarea>
-                        </div>
-                        <div>
-                            <button type="submit" class="btn-primary w-full md:w-auto">
-                                <span class="material-icons text-sm mr-1 align-middle">send</span>
-                                发送留言
-                            </button>
-                        </div>
-                    </form>
+              </div>
+              <div class="contact-box">
+                <div class="contact-head">
+                  <h3>最快的联系方式是微信。</h3>
+                  <a class="btn-resume" href="#">预览简历 ↗</a>
                 </div>
+                <p>岗位机会、产品交流或合作探讨都欢迎。附上 JD 与业务背景，可以聊得更高效。</p>
+                <button class="c-item" id="copyWechat"><span>微信</span><span class="v" id="wxValue">wrj201105033 · 点击复制</span></button>
+                <a class="c-item" href="#"><span>公众号</span><span class="v">产品汪杰克</span></a>
+                <a class="c-item" href="#"><span>飞书</span><span class="v">名片链接待提供 ↗</span></a>
+                <a class="c-item" href="mailto:wrj6512321@163.com"><span>邮箱</span><span class="v">wrj6512321@163.com</span></a>
+                <a class="c-item" href="https://github.com/Jacky0316" target="_blank" rel="noopener"><span>GitHub</span><span class="v">github.com/Jacky0316 ↗</span></a>
+              </div>
             </div>
+          </section>
         </div>
-    </section>
-    
-    <!-- 页脚 -->
-    <footer class="bg-dark-dark text-white py-8">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex flex-col md:flex-row justify-between items-center">
-                <div class="flex items-center mb-4 md:mb-0">
-                    <span class="material-icons text-2xl mr-2">person</span>
-                    <span class="font-bold text-xl">王任杰</span>
-                </div>
-                <div class="text-sm text-gray-400">
-                    <p>人生不是轨道，而是旷野。</p>
-                </div>
-                <div class="mt-4 md:mt-0">
-                    <p class="text-sm text-gray-400">© 2025 王任杰. 保留所有权利.</p>
-                </div>
-            </div>
+      </div>
+
+      <!-- ==================== AI 探索页 ==================== -->
+      <div data-view="ai">
+        <div class="shell">
+          <div class="page-head">
+            <p class="crumb"><a href="#/">首页</a> / AI 探索</p>
+            <h1>AI 探索</h1>
+            <p class="sub">从产品设计到可运行原型，持续验证 AI 在真实业务场景中的价值。</p>
+          </div>
+          <div class="tabs">
+            <button data-tab="vibe" class="on">Vibe Coding</button>
+            <button data-tab="reading">Latest Reading</button>
+          </div>
+          <!-- Vibe Coding -->
+          <div data-pane="vibe" style="padding-bottom: 92px;">
+            <div class="cards-3" id="aiAgents"></div>
+          </div>
+          <!-- Latest Reading（图#7 Research 式） -->
+          <div data-pane="reading" style="display:none; padding-bottom: 92px;">
+            <div class="filters" id="topicFilters"></div>
+            <div id="readingList"></div>
+          </div>
         </div>
+      </div>
+
+      <!-- ==================== 作品集页 ==================== -->
+      <div data-view="work">
+        <div class="shell">
+          <div class="page-head">
+            <p class="crumb"><a href="#/">首页</a> / 作品集</p>
+            <h1>作品集</h1>
+            <p class="sub">五条业务线、20 个产品项目。产品名称已确认，介绍与数据逐步补充。</p>
+          </div>
+          <div class="filters" id="workFilters"></div>
+          <div class="cards-3" id="workGrid" style="padding-bottom: 92px;"></div>
+        </div>
+      </div>
+
+      <!-- ==================== 文章列表页 ==================== -->
+      <div data-view="writing">
+        <div class="shell">
+          <div class="page-head">
+            <p class="crumb"><a href="#/">首页</a> / 文章</p>
+            <h1>文章</h1>
+            <p class="sub">站内文章站内阅读，公众号文章带封面外链跳转。</p>
+          </div>
+          <div class="cards-3" id="writingGrid" style="padding-bottom: 92px;"></div>
+        </div>
+      </div>
+    </main>
+
+    <footer>
+      <div class="shell"><div class="copy">Copyright © 2026 Jacky Wang</div></div>
     </footer>
 
-    <!-- JavaScript -->
     <script>
-        // 移动端菜单切换
-        document.addEventListener('DOMContentLoaded', function() {
-            const menuButton = document.getElementById('mobile-menu-button');
-            const mobileMenu = document.getElementById('mobile-menu');
-            
-            menuButton.addEventListener('click', function() {
-                // 如果菜单是隐藏的，则显示它，否则隐藏它
-                if (mobileMenu.classList.contains('hidden')) {
-                    mobileMenu.classList.remove('hidden');
-                } else {
-                    mobileMenu.classList.add('hidden');
-                }
-            });
-            
-            // 平滑滚动到锚点
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    
-                    // 关闭移动端菜单
-                    if (!mobileMenu.classList.contains('hidden')) {
-                        mobileMenu.classList.add('hidden');
-                    }
-                    
-                    const targetId = this.getAttribute('href');
-                    const targetElement = document.querySelector(targetId);
-                    
-                    if (targetElement) {
-                        targetElement.scrollIntoView({
-                            behavior: 'smooth'
-                        });
-                    }
-                });
-            });
-        });
+      /* ================= 数据（改这里即可维护内容） ================= */
+      // featured: true 的文章会出现在首页 Hero 面板和首页 Latest Reading 板块（热门推荐 3~4 篇）
+      const ARTICLES = [
+        { date: '2026-07-24', source: 'CLAUDE', topic: '上下文工程', title: 'The new rules of context engineering for Claude 5 generation models', summary: '为更强模型砍掉 Claude Code 80%+ 系统提示；把经验迁移到自己的上下文工程。', url: 'https://claude.com/blog/the-new-rules-of-context-engineering-for-claude-5-generation-models' },
+        { date: '2026-07-22', source: 'CLAUDE', topic: 'Coding 实践', title: 'Building verification loops in Claude Code with skills', summary: '把人工检查写成 Skills，让 Claude 自己关闭验证反馈循环。', url: 'https://claude.com/blog/building-verification-loops-in-claude-code-with-skills' },
+        { date: '2026-07-06', source: 'CLAUDE', topic: 'Coding 实践', title: 'A field guide to Claude Fable 5: Finding your unknowns', summary: '用 Claude Fable 做代理式编码的实用模式：在实现前、中、后找到你的未知项。', url: 'https://claude.com/blog/a-field-guide-to-claude-fable-finding-your-unknowns' },
+        { date: '2026-06-30', source: 'CLAUDE', topic: 'Coding 实践', title: 'Loop engineering: Getting started with loops', summary: '智能体循环四种类型（turn/goal/time-based/proactive），以及用 SKILL.md 编码人工验证步骤。', url: 'https://claude.com/blog/getting-started-with-loops' },
+        { date: '2026-06-30', source: '微信公众号', topic: 'Coding 实践', title: 'Prompt → Context → Harness → Loop：AI 工程师的能力跃迁路线图（深度版）', summary: '四个词不是并列的技能点，而是一条能力跃迁路线。', url: 'https://mp.weixin.qq.com/s/Zr8VODiYfaXpv8H5sOqyhA' },
+        { date: '2026-06-18', source: 'DATABRICKS', topic: 'Harness', title: 'What is an AI Agent Harness?', summary: 'Agent = Model + Harness；Harness 是围绕模型的软件脚手架：工具、记忆、沙箱、反馈循环。', url: 'https://www.databricks.com/blog/ai-harness' },
+        { date: '2026-04-24', source: 'NILS LIU', topic: 'Harness', title: 'Agent Harness 全解析：迈向生产级 AI 智能体的架构核心', summary: '深度解析生产级 Agent Harness 十二大核心模块、主流框架设计哲学与七大架构抉择。', url: 'https://nilsliu.dev/zh/insights/agent-harness-production-ai/' },
+        { date: '2026-04-19', source: 'ADDY OSMANI', topic: 'Harness', title: 'Agent Harness Engineering', summary: '编码代理 = 模型 + 围绕它的全部脚手架（提示、工具、钩子、沙箱、反馈循环）；好 Harness 胜过好模型。', url: 'https://addyosmani.com/blog/agent-harness-engineering/' },
+        { date: '2026-04-17', source: 'AUGMENT CODE', topic: 'Harness', title: 'Harness Engineering for AI Coding Agents', summary: '用约束、反馈循环与质量门（PEV loops、rules files、CI gates）让 AI 编码代理可靠。', url: 'https://www.augmentcode.com/guides/harness-engineering-ai-coding-agents' },
+        { date: '2026-04-15', source: 'OPENAI', topic: 'Harness', title: 'Agents SDK 的全新演进', summary: 'OpenAI 更新 Agents SDK：原生沙箱执行 + 模型原生 Harness，构建安全、长期运行的代理。', url: 'https://openai.com/zh-Hans-CN/index/the-next-evolution-of-the-agents-sdk/' },
+        { date: '2026-04-06', source: 'AKSHAY PACHAAR', topic: 'Harness', title: 'Agent Harness 十二大模块完全解析', summary: '拆解 Anthropic、OpenAI、Perplexity、LangChain 实际在构建什么：编排循环、工具、记忆、并发。', url: 'https://x.com/akshay_pachaar/status/2041146899319971922' },
+        { date: '2026-03-11', source: 'LANGCHAIN', topic: 'Harness', title: 'The Anatomy of an Agent Harness', summary: 'Harness 如何把模型变成自主工作引擎：文件系统、沙箱、记忆等核心组件。', url: 'https://www.langchain.com/blog/the-anatomy-of-an-agent-harness', featured: true },
+        { date: '2026-01-21', source: 'DATABRICKS', topic: 'Agent 评估', title: 'What is AI Agent Evaluation?', summary: '什么是 AI 代理评估，如何评估性能、可靠性、安全性及评估框架。', url: 'https://www.databricks.com/blog/what-is-agent-evaluation' },
+        { date: '2026-01-09', source: 'ANTHROPIC', topic: 'Agent 评估', title: 'Demystifying evals for AI agents', summary: '代理多轮运行让评估更难；分享跨架构、真实场景验证有效的代理评估设计方法。', url: 'https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents', featured: true },
+        { date: '2025-10-16', source: 'ANTHROPIC', topic: 'Coding 实践', title: 'Equipping agents for the real world with Agent Skills', summary: 'Agent Skills：以文件夹打包指令、脚本与资源，让通用代理变身专用代理（渐进式披露设计）。', url: 'https://www.anthropic.com/engineering/equipping-agents-for-the-real-world-with-agent-skills' },
+        { date: '2025-09-29', source: 'ANTHROPIC', topic: '上下文工程', title: 'Effective context engineering for AI agents', summary: '上下文工程是提示工程的自然演进：在有限上下文窗口内策划最优信息集，构建可控的代理。', url: 'https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents', featured: true },
+        { date: '2025-07-02', source: 'LANGCHAIN', topic: '上下文工程', title: 'Context Engineering', summary: '上下文工程策略：write、select、compress、isolate，优化性能与长任务管理。', url: 'https://www.langchain.com/blog/context-engineering-for-agents' },
+        { date: '2025-06-13', source: 'ANTHROPIC', topic: 'Coding 实践', title: 'How we built our multi-agent research system', summary: '构建 Claude Research 多代理研究系统的工程挑战与经验教训。', url: 'https://www.anthropic.com/engineering/multi-agent-research-system' },
+        { date: '2024-12-19', source: 'ANTHROPIC', topic: 'Coding 实践', title: 'Building Effective AI Agents', summary: '最成功的 Agent 不用复杂框架，而是简单可组合的模式；厘清 Workflow 与 Agent 的架构边界。', url: 'https://www.anthropic.com/engineering/building-effective-agents', featured: true },
+      ];
+
+      const AGENTS = [
+        { name: 'HotEvent · 舆情热点事件分析 Agent', status: '已上线', statusClass: 'chip-live', cover: 'c-navy', win: 'hotevent / 热点事件研判',
+          problem: '舆情监测场景中，海量信息里热点事件的识别、研判与传播分析依赖人工，时效差、口径不一。（细节待补充）',
+          role: '产品设计 + Agent 架构 + Web Coding 实现。（细节待补充）',
+          core: '事件抽取 · 热度研判 · 传播链路分析 · 自动报告（机制待细化）' },
+        { name: '电商智能客服 Agent', status: '迭代中', statusClass: 'chip-iter', cover: 'c-blue', win: 'ecom-agent / 客服会话',
+          problem: '电商客服高频重复问答占用大量人力，售后链路长、响应慢。（细节待补充）',
+          role: '产品设计 + Agent 架构 + Web Coding 实现。（细节待补充）',
+          core: '多轮会话 · 工具调用（订单/物流）· 人工接管机制（机制待细化）' },
+        { name: '门店智能经营助手 Agent', status: '规划中', statusClass: 'chip-iter', cover: 'c-verm', win: 'store-agent / 经营诊断',
+          problem: '门店经营者缺乏数据化工具，经营诊断与决策依赖经验，响应市场变化慢。（细节待补充）',
+          role: '产品设计 + Agent 架构 + Web Coding 实现。（细节待补充）',
+          core: '经营数据洞察 · 异常预警 · 建议生成（机制待细化）' },
+      ];
+
+      const WORK_GROUPS = [
+        { key: 'saas', name: 'SaaS 产品', en: 'SAAS PRODUCTS', char: '云', cover: 'c-navy', home: true,
+          items: ['文本校对', '舆情监测', '舆情演练', '人事招聘', '教育融媒体'] },
+        { key: 'web', name: '网站产品', en: 'WEBSITES', char: '网', cover: 'c-blue', home: true,
+          items: ['河南省高校思政网', '思政教学资源平台', '国家安全教育平台', '阳光高考网站'] },
+        { key: 'gov', name: '教育政务产品', en: 'EDU-GOV', char: '政', cover: 'c-verm', home: true,
+          items: ['思政项目申报系统', '思政资源管理后台', '思政先锋团考核平台', '师德投诉管理平台'] },
+        { key: 'viz', name: '数据可视化产品', en: 'DATA VIZ', char: '数', cover: 'c-green', home: true,
+          items: ['舆情监测大屏', '内容安全大屏', '教育融媒体大屏'] },
+        { key: 'h5', name: 'H5 活动产品', en: 'H5 ACTIVITIES', char: '活', cover: 'c-paper', home: false,
+          items: ['知识答题竞赛', '投票点赞活动', '比赛评审活动', '会议活动签到'] },
+      ];
+
+      const WRITINGS = [
+        { form: '站内原创', formClass: 'chip-vibe', title: '我如何用 Vibe Coding 在两周内做出一个 Agent 原型', summary: '从 PRD 到可运行产品：一位产品经理的独立开发复盘。正文待补充。', date: '2026-08', cover: 'c-verm', char: '文', url: '#' },
+        { form: '公众号外链', formClass: 'chip-iter', title: '文章标题待补充', summary: '公众号文章摘要待补充，封面图待提供。', date: '待补充', cover: 'c-navy', char: '文', url: '#' },
+        { form: '公众号外链', formClass: 'chip-iter', title: '文章标题待补充', summary: '公众号文章摘要待补充，封面图待提供。', date: '待补充', cover: 'c-blue', char: '文', url: '#' },
+      ];
+
+      /* ================= 渲染 ================= */
+      const esc = s => s;
+      const featured = ARTICLES.filter(a => a.featured);
+
+      // Hero 面板 + 首页信息流（featured）
+      document.getElementById('heroReading').innerHTML = featured.map(a => `
+        <a class="rp-item" href="${a.url}" target="_blank" rel="noopener">
+          <time>${a.date} · ${a.source}</time><h4>${a.title}</h4><span class="arr">↗</span>
+        </a>`).join('');
+      document.getElementById('homeFeed').innerHTML = featured.map(a => `
+        <a class="feed-item" href="${a.url}" target="_blank" rel="noopener">
+          <time>${a.date} <span class="feed-src">${a.source}</span></time>
+          <div><h4>${a.title}</h4><p>${a.summary}</p></div><span class="arr">↗</span>
+        </a>`).join('');
+
+      // Agent 卡片（首页 + AI 探索页）
+      const agentCard = (g, full) => `
+        <article class="card">
+          <div class="cover ${g.cover}">
+            <div class="grid-deco"></div>
+            <div class="mini-win"><div class="mini-bar"><i></i><i></i><i></i>${g.win}</div><div class="mini-lines"><i></i><i></i><i></i></div></div>
+            <span class="cap">AGENT / VIBE CODING</span>
+          </div>
+          <div class="card-body">
+            <div class="card-meta"><span class="chip chip-vibe">VIBE CODING</span><span class="chip ${g.statusClass}">${g.status}</span></div>
+            <h3>${g.name}</h3>
+            ${full ? `<p><b>问题场景：</b>${g.problem}</p><p><b>我的角色：</b>${g.role}</p><p><b>关键能力：</b>${g.core}</p><span class="foot">查看详情 →</span>` : `<p>${g.problem}</p><span class="foot">查看详情 →</span>`}
+          </div>
+        </article>`;
+      document.getElementById('homeAgents').innerHTML = AGENTS.map(g => agentCard(g, false)).join('');
+      document.getElementById('aiAgents').innerHTML = AGENTS.map(g => agentCard(g, true)).join('');
+
+      // 首页业务线卡（home: true 的 4 条）
+      document.getElementById('homeWork').innerHTML = WORK_GROUPS.filter(g => g.home).map(g => `
+        <a class="card" href="#/work">
+          <div class="cover ${g.cover}"><div class="grid-deco"></div><span class="big">${g.char}</span><span class="cap">${g.en}</span></div>
+          <div class="card-body">
+            <div class="card-meta">${g.items.length} 个项目</div>
+            <h3>${g.name}</h3>
+            <span class="foot">进入查看 →</span>
+          </div>
+        </a>`).join('');
+
+      // 作品集页：filter chips + 项目卡
+      const workFiltersEl = document.getElementById('workFilters');
+      const workGridEl = document.getElementById('workGrid');
+      const renderWork = key => {
+        const groups = key === 'all' ? WORK_GROUPS : WORK_GROUPS.filter(g => g.key === key);
+        workGridEl.innerHTML = groups.flatMap(g => g.items.map((name, i) => `
+          <article class="card">
+            <div class="cover ${g.cover}"><div class="grid-deco"></div><span class="big">${g.char}</span><span class="cap">${g.en} / ${String(i + 1).padStart(2, '0')}</span></div>
+            <div class="card-body">
+              <div class="card-meta"><span class="chip chip-line">${g.name}</span></div>
+              <h3>${name}</h3>
+              <p>产品介绍待补充</p>
+              <span class="foot">角色 / 阶段待补充</span>
+            </div>
+          </article>`)).join('');
+      };
+      workFiltersEl.innerHTML = `<button data-k="all" class="on">全部<span class="n">${WORK_GROUPS.reduce((s, g) => s + g.items.length, 0)}</span></button>` +
+        WORK_GROUPS.map(g => `<button data-k="${g.key}">${g.name}<span class="n">${g.items.length}</span></button>`).join('');
+      workFiltersEl.addEventListener('click', e => {
+        const b = e.target.closest('button'); if (!b) return;
+        workFiltersEl.querySelectorAll('button').forEach(x => x.classList.toggle('on', x === b));
+        renderWork(b.dataset.k);
+      });
+      renderWork('all');
+
+      // 文章卡（首页 3 篇 + 列表页）
+      const writingCard = w => `
+        <a class="card" href="${w.url}">
+          <div class="cover ${w.cover}"><div class="grid-deco"></div><span class="big">${w.char}</span><span class="cap">${w.form} / ${w.date}</span></div>
+          <div class="card-body">
+            <div class="card-meta"><span class="chip ${w.formClass}">${w.form}</span><span>${w.date}</span></div>
+            <h3>${w.title}</h3>
+            <p>${w.summary}</p>
+            <span class="foot">${w.form === '站内原创' ? '站内阅读 →' : '跳转公众号 ↗'}</span>
+          </div>
+        </a>`;
+      document.getElementById('homeWriting').innerHTML = WRITINGS.slice(0, 3).map(writingCard).join('');
+      document.getElementById('writingGrid').innerHTML = WRITINGS.map(writingCard).join('');
+
+      // Latest Reading 页：主题 tabs + Research 式列表
+      const TOPICS = ['全部', 'Harness', '上下文工程', 'Coding 实践', 'Agent 评估'];
+      const topicFiltersEl = document.getElementById('topicFilters');
+      const readingListEl = document.getElementById('readingList');
+      const renderReading = topic => {
+        const list = (topic === '全部' ? ARTICLES : ARTICLES.filter(a => a.topic === topic))
+          .slice().sort((a, b) => b.date.localeCompare(a.date));
+        readingListEl.innerHTML = list.map(a => `
+          <a class="res-row" href="${a.url}" target="_blank" rel="noopener">
+            <span class="res-side"><span class="topic">${a.topic}</span><time>${a.date} · ${a.source}</time></span>
+            <span class="res-main"><h4>${a.title}</h4><p>${a.summary}</p></span>
+            <span class="arr">↗</span>
+          </a>`).join('');
+      };
+      topicFiltersEl.innerHTML = TOPICS.map((t, i) => {
+        const n = t === '全部' ? ARTICLES.length : ARTICLES.filter(a => a.topic === t).length;
+        return `<button data-t="${t}" class="${i === 0 ? 'on' : ''}">${t}<span class="n">${n}</span></button>`;
+      }).join('');
+      topicFiltersEl.addEventListener('click', e => {
+        const b = e.target.closest('button'); if (!b) return;
+        topicFiltersEl.querySelectorAll('button').forEach(x => x.classList.toggle('on', x === b));
+        renderReading(b.dataset.t);
+      });
+      renderReading('全部');
+
+      /* ================= AI 探索页 tabs ================= */
+      const tabBtns = document.querySelectorAll('.tabs button');
+      function setTab(name) {
+        tabBtns.forEach(b => b.classList.toggle('on', b.dataset.tab === name));
+        document.querySelectorAll('[data-pane]').forEach(p => p.style.display = p.dataset.pane === name ? '' : 'none');
+      }
+      tabBtns.forEach(b => b.addEventListener('click', () => {
+        const t = b.dataset.tab;
+        history.replaceState(null, '', t === 'reading' ? '#/reading' : '#/ai');
+        setTab(t);
+      }));
+
+      /* ================= 路由 ================= */
+      const NAV_OF = { home: 'home', ai: 'ai', reading: 'ai', work: 'work', writing: 'writing' };
+      let scrollSpy = null;
+      function route() {
+        const h = location.hash.replace('#/', '');
+        let view = 'home';
+        if (h === 'ai') view = 'ai';
+        else if (h === 'reading') view = 'ai';
+        else if (h === 'work') view = 'work';
+        else if (h === 'writing') view = 'writing';
+        document.querySelectorAll('[data-view]').forEach(v => v.classList.toggle('active', v.dataset.view === view));
+        if (view === 'ai') setTab(h === 'reading' ? 'reading' : 'vibe');
+        setNav(NAV_OF[h] || 'home');
+        if (view === 'home') { enableSpy(); window.scrollTo({ top: 0 }); }
+        else { disableSpy(); window.scrollTo({ top: 0 }); }
+        document.getElementById('drawer').classList.remove('open');
+        document.getElementById('menuBtn').setAttribute('aria-expanded', 'false');
+      }
+      function setNav(key) {
+        document.querySelectorAll('[data-nav]').forEach(a => a.classList.toggle('active', a.dataset.nav === key));
+      }
+      // scrollspy（仅首页）
+      const SPY_MAP = [
+        ['top', 'home'], ['sec-ai', 'ai'], ['sec-reading', 'ai'], ['sec-work', 'work'], ['sec-writing', 'writing'], ['about', 'about'],
+      ];
+      function enableSpy() {
+        disableSpy();
+        const obs = new IntersectionObserver(entries => {
+          entries.forEach(en => {
+            if (en.isIntersecting) {
+              const hit = SPY_MAP.find(([id]) => id === en.target.id);
+              if (hit) setNav(hit[1]);
+            }
+          });
+        }, { rootMargin: '-30% 0px -55% 0px' });
+        SPY_MAP.forEach(([id]) => { const el = document.getElementById(id); if (el) obs.observe(el); });
+        scrollSpy = obs;
+      }
+      function disableSpy() { if (scrollSpy) { scrollSpy.disconnect(); scrollSpy = null; } }
+      // 关于我锚点：子页面时先回首页再滚动
+      document.querySelectorAll('[data-anchor="about"]').forEach(a => a.addEventListener('click', e => {
+        e.preventDefault();
+        const go = () => document.getElementById('about').scrollIntoView({ behavior: 'smooth' });
+        if (!document.querySelector('[data-view="home"]').classList.contains('active')) {
+          location.hash = '#/'; setTimeout(go, 80);
+        } else go();
+      }));
+      window.addEventListener('hashchange', route);
+      route();
+
+      /* ================= 抽屉 & 微信复制 ================= */
+      const menuBtn = document.getElementById('menuBtn');
+      const drawer = document.getElementById('drawer');
+      menuBtn.addEventListener('click', () => {
+        const open = drawer.classList.toggle('open');
+        menuBtn.setAttribute('aria-expanded', String(open));
+      });
+      drawer.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+        drawer.classList.remove('open'); menuBtn.setAttribute('aria-expanded', 'false');
+      }));
+      document.getElementById('copyWechat').addEventListener('click', async function () {
+        try {
+          await navigator.clipboard.writeText('wrj201105033');
+          document.getElementById('wxValue').textContent = '已复制 ✓';
+          setTimeout(() => (document.getElementById('wxValue').textContent = 'wrj201105033 · 点击复制'), 1600);
+        } catch { /* ignore */ }
+      });
     </script>
-</body>
+  </body>
 </html>
